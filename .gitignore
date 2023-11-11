@@ -1,0 +1,14 @@
+.mypy_cache/
+.vscode/
+build/
+cleandoc.egg-info/
+dist/
+docs/conf.txt
+src/cleandoc/__pycache__
+test/__pycache__
+test/.mypy_cache/
+test/docs
+test/test_pkgs
+test/cleandoc_log.txt
+run_setup.cmd
+cleandoc_log.txt

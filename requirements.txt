@@ -1,0 +1,10 @@
+cleandoc>=0.0.5
+build
+tomli
+tomli-w
+GitPython
+pytest
+pipreqs
+types-requests
+types-setuptools
+
