@@ -1,5 +1,5 @@
 """helpers"""
-from os import path, mkdir, remove
+from os import path, makedirs, remove
 from shutil import rmtree
 from typing import Any, Tuple
 from subprocess import run
@@ -28,13 +28,11 @@ def create_dirs(srcpath: str, dirdict: dict[str, Any]):
     dirdict : dict[dict]
         _description_
     """
-    mkdir(srcpath)
     for dirname, subdirdict in dirdict.items():
         newsrcpath = path.join(srcpath, dirname)
-        if len(subdirdict) == 0:
-            mkdir(newsrcpath)
-            return
-        create_dirs(newsrcpath, subdirdict)
+        makedirs(newsrcpath, exist_ok=True)
+        if len(subdirdict) > 0:
+            create_dirs(newsrcpath, subdirdict)
 
 
 def remove_item(itempath: str):

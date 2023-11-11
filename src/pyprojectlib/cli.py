@@ -4,10 +4,11 @@ Written by Jason Krist
 
 from argparse import ArgumentParser
 
-# TODO: FINISH CMD LINE (THIS SCRIPT)
-# TODO: make distinct commands for init project vs. repo
-# TODO: make entry-point "myrepo"
-# TODO: ADD IDEA TO HAVE ALLOWED EDITORS IN THE CONFIG FILE
+# list of things left
+# FINISH CMD LINE (THIS SCRIPT)
+# make distinct commands for init project vs. repo
+# make entry-point "myrepo"
+# implement feature to only ALLOW EDITORS IN THE Project CONFIG FILE
 # Should I allow a name input instead of dirname?
 
 
@@ -33,8 +34,8 @@ def parse():
     """Run command line parsing"""
     desc = "Simple command-line tool for creating and adding to your local python repositories"
     cmdh = (
-        'Command - ["init", "add"] init=initialize'
-        + " new project, add=add completed project to repo"
+        'Command - ["init", "push"] init=initialize'
+        + " new project or new repository, push=copy completed project to repo"
     )
     dirh = "Directory where to execute command"
     pkgh = "Flag to package python project into a distributable module"
@@ -48,8 +49,9 @@ def parse():
 
     parser = ArgumentParser(prog="pyrepo", description=desc)
     parser.add_argument("command", type=str, help=cmdh)
-    parser.add_argument("-version", "-v", default="", help=reh)
-    parser.add_argument("-dir", "-d", default=".", help=dirh)
+    parser.add_argument("-repopath", "-r", type=str, default="", help=pkgh)
+    parser.add_argument("-version", "-v", type=str, default="", help=reh)
+    parser.add_argument("-dir", "-d", type=str, default=".", help=dirh)
     parser.add_argument("-package", "-p", action="store_true", help=pkgh)
     parser.add_argument("-install", "-i", action="store_true", help=installh)
     parser.add_argument("-noclean", "-nc", action="store_true", help=nch)

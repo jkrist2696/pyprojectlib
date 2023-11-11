@@ -1,0 +1,18 @@
+[project]
+license = { file = "LICENSE.txt" }
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: Unix',
+]
+
+name = "pyprojectlib"
+version = "0.0.1"
+authors = [{ name = "Jason Krist", email = "jkrist2696@gmail.com" }]
+description = ""
+requires-python = ">=3.12.0"
+dependencies = ["cleandoc>=0.0.5","GitPython>=3.1.40","pipreqs>=0.4.13","pytest>=7.4.3","cleandoc>=0.0.5","build","twine","tomli","tomli-w","GitPython","pytest","pipreqs","types-requests","types-setuptools"]
+[project.urls]
+"Homepage" = "https://github.com/jkrist2696/pyprojectlib"

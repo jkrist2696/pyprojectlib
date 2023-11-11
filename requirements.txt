@@ -1,5 +1,6 @@
 cleandoc>=0.0.5
 build
+twine
 tomli
 tomli-w
 GitPython

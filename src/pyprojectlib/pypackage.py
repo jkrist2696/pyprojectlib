@@ -1,17 +1,19 @@
 """pypackage"""
-from os import path
+from os import path, mkdir
+import sys
+from re import split
 import pipreqs.pipreqs as pr  # type: ignore # pylint: disable=E0401
-from .helper import prompt_user
-from .pyproject import Project
+from .helper import prompt_user, run_capture_out
 from .pyuser import User
+from .pyproject import Project
 
 
 TOMLSTR_START = """[project]
-license = {{ file = "LICENSE.txt" }}
+license = { text = "GNU GPLv3" }
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     'Operating System :: Microsoft :: Windows',
     'Operating System :: Unix',
 ]
@@ -22,35 +24,35 @@ classifiers = [
 class Package(Project):
     """package"""
 
-    def __init__(
-        self, pkgpath: str, clifxn: str = "", version: str = "", remote: bool = False
-    ):
+    def __init__(self, pkgpath: str, user: User, clifxn: str = "", **kwargs):
         """init"""
         self.clifxn = clifxn
-        super().__init__(pkgpath, version=version, remote=remote)
+        super().__init__(pkgpath, **kwargs)
         self.description = self.get_description()
         self.dep_pkgs: list[str] = []
         self.get_dep_pkgs()
-        self.version = self.get_version()
-        scriptpath = path.dirname(path.abspath(__file__))
-        userconfig = path.join(scriptpath, ".users")
-        self.author = User().get_config(userconfig)
+        self.version = self.get_version(path.join(self.path, ".versions"))
+        scriptpath = path.dirname(path.realpath(__file__))
+        userconfig = path.join(scriptpath, "..", "..", ".users")
+        if not path.exists(userconfig):
+            mkdir(userconfig)
+        self.author = user
+        self.author.get_config(userconfig)
 
     def get_dep_pkgs(self):
         """get dep pkgs"""
-        # TODO: add logic to eliminate duplicates with set
         self._get_pipreqs()
         self._get_requirements()
+        self._remove_dep_dups()
         print(f"dependent packages: {self.dep_pkgs}")
 
     def save_toml(self):
         """save_toml"""
         depstr = ",".join([f'"{pkg}"' for pkg in self.dep_pkgs])
         toml_str = TOMLSTR_START + f'name = "{self.name}"\n'
-        toml_str += f'name = "{self.name}"\n'
         toml_str += f'version = "{self.version}"\n'
         author = self.author
-        toml_str += 'authors = [{{ name = "'
+        toml_str += 'authors = [{ name = "'
         toml_str += f'{author.name}", email = "{author.email}" }}]\n'
         toml_str += f'description = "{self.description}"\n'
         toml_str += f'requires-python = ">={self.pyversion}"\n'
@@ -63,16 +65,27 @@ class Package(Project):
             toml_str += f'{author.gituser}/{self.name}"\n'
         tomlpath = path.join(self.path, "pyproject.toml")
         with open(tomlpath, "wb") as writer:
-            writer.write(bytes(toml_str))
+            writer.write(bytes(toml_str, encoding="utf-8"))
 
     def build(self):
         """build"""
-        # SETUP PROCESS BELOW
-        # python -m build
-        # twine check dist/*
-        # pip3 install .
-        # twine upload dist/*
-        print("monitor output of each step")
+        pyexe = sys.executable
+        envpath = path.dirname(pyexe)
+        pipexe = path.join(envpath, "Scripts", "pip3")
+        twineexe = path.join(envpath, "Scripts", "twine")
+        arglists = [
+            [pyexe, "-m", "build"],
+            [twineexe, "check", "dist/*"],
+            [pipexe, "install", "."],
+            # ["twine", "upload", "dist/*"], # twine upload dist/*
+        ]
+        for arglist in arglists:
+            stdout, stderr = run_capture_out(arglist, cwd=self.path)
+            print(f"exe: {arglist[0]}\n")
+            print(f"stdout:\n{stdout}\n")
+            if len(stderr.strip()) > 0:
+                print(f"blderr:\n{stderr}\n")
+                raise ChildProcessError(stderr)
 
     def _prompt(self):
         """prompt"""
@@ -80,7 +93,8 @@ class Package(Project):
 
     def _get_pipreqs(self):
         """Get Module Dependencies and their Versions with pipreqs"""
-        imports = pr.get_all_imports(f"./src/{self.name}", encoding="utf-8")
+        srcpath = path.join(self.path, "src", self.name)
+        imports = pr.get_all_imports(srcpath, encoding="utf-8")
         pkgnames = pr.get_pkg_names(imports)
         pkgdicts_all = pr.get_import_local(pkgnames, encoding="utf-8")
         pkgdicts: list = []
@@ -89,6 +103,7 @@ class Package(Project):
             if pkgdict_orig["name"] not in pkgdicts_names:
                 pkgdicts.append(pkgdict_orig)
         pkglist = [pkgdict["name"] + ">=" + pkgdict["version"] for pkgdict in pkgdicts]
+        print(f"pipreqs packages: {pkglist}")
         self.dep_pkgs.extend(pkglist)
 
     def _get_requirements(self):
@@ -96,7 +111,27 @@ class Package(Project):
         reqfile = path.join(self.path, "requirements.txt")
         with open(reqfile, "r", encoding="utf-8") as reqreader:
             reqlines = reqreader.readlines()
+        reqlines = [line.strip() for line in reqlines if len(line.strip()) > 0]
+        print(f"requirements.txt packages: {reqlines}")
         self.dep_pkgs.extend(reqlines)
+
+    def _remove_dep_dups(self):
+        """remove duplicate packages"""
+        new_dep_pkgs = []
+        new_pkgnames = []
+        for pkgstr in self.dep_pkgs:
+            pkgname = split("~<>=", pkgstr)[0]
+            if pkgname in new_pkgnames:
+                continue
+            new_dep_pkgs.append(pkgstr)
+            new_pkgnames.append(pkgname)
+
+
+def package_project(pkgpath: str, user: User, **kwargs):
+    """package"""
+    pkg = Package(path.realpath(pkgpath), user, **kwargs)
+    pkg.save_toml()
+    pkg.build()
 
 
 # TOML EXTRAS BELOW:
