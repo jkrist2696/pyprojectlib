@@ -1,21 +1,179 @@
 """
 Written by Jason Krist
 
-# TODO: (HIGH) complete the packaging automation and add to test
-# TODO: (MED) add user permissions in .projects file (list of usernames who can edit)
-# TODO: (LOW) allow creation of sub-environments (i.e. "generic">"aero")
-# TODO: (LOW) make all printouts logs instead
-# TODO: use just specifies path to push pkg and repo is recognized there auto?
-
+# to do list:
+# (HIGH) FIX PY.TYPED NOT FOUND
+# (HIGH) FIX LOGGING ISSUE
+# check if config has changed and re-save it???
+# Add better options for outputting logfile or not
+# remote git pushing
+# pull packages from local repo
+# ADD VALIDATION FOR EMAIL AND VERSION?
+# (LOW) update my docstrings
+# DO SOME TESTING: WSL linux, test editors list, project exists, etc.
 
 """
 
-from .cli import parse
-from .pyproject import init_project_dir
-from .pyrepo import Repository, init_repo_dir  # type: ignore # pylint: disable=E0401,C0413
+from os import path
+import logging
+from shutil import copyfile
+from git import Repo
+from .helper import config_log, attrs_to_dict, create_dirs
+from .pyuser import User
+from .pypackage import Package  # type: ignore # pylint: disable=E0401,C0413,E0611
+from .pyrepo import Repository  # type: ignore # pylint: disable=E0401,C0413,E0611
+from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
+from . import cli
+
+
+def init_project(dirpath: str):
+    """wrapper for _init_project_dir"""
+    dirpath = path.realpath(dirpath)
+    if path.exists(dirpath):
+        errstr = f"\nNew Project cannot be created because directory already exists:\n{dirpath}\n\n"
+        raise FileExistsError(errstr)
+    dirdict = {
+        CONS.SRC_DIR: {path.basename(dirpath): {}},
+        CONS.DOCS_DIR: {},
+        CONS.TEST_DIR: {"examples": {}},
+        CONS.VERSIONS_DIR: {},
+    }
+    logstr = f"Creating Empty Project: {dirpath}"
+    CONS.log().info(logstr)
+    create_dirs(dirpath, dirdict)
+    # Initialize git repo
+    git_repo = Repo.init(dirpath)
+    git_repo.close()
+    # Create .gitignore file
+    with open(path.join(dirpath, ".gitignore"), "w", encoding="utf-8") as writer:
+        for item in CONS.IGNORELIST:
+            writer.write(f"{item}\n")
+    # Create empty requirements.txt
+    with open(path.join(dirpath, CONS.REQFILE), "wb") as writer:
+        writer.write(b"")
+    # create example readme and license
+    scriptpath = path.dirname(path.realpath(__file__))
+    newreadme = path.join(dirpath, CONS.READFILE)
+    basereadme = path.join(scriptpath, "README.template")
+    copyfile(basereadme, newreadme)
+    newlicense = path.join(dirpath, CONS.LICFILE)
+    baselicense = path.join(scriptpath, "LICENSE.template")
+    copyfile(baselicense, newlicense)
+
+
+def init_repo(dirpath: str, **kwargs):
+    """wrapper for _init_repo_dir"""
+    dirpath = path.realpath(dirpath)
+    if path.exists(dirpath):
+        errstr = f"New Repo cannot be created because directory already exists:\n{dirpath}\n\n"
+        raise FileExistsError(errstr)
+    logstr = f"Creating Empty Repository: {dirpath}"
+    CONS.log().info(logstr)
+    dirdict: dict[str, dict] = {
+        CONS.USERS_DIR: {},
+        CONS.PROJECTS_DIR: {},
+    }
+    create_dirs(dirpath, dirdict)
+    user = User(**kwargs)
+    Repository(dirpath, user)
+
+
+def init_user(repopath: str, **kwargs):
+    """add a new user to the repo and save their config"""
+    user = User(**kwargs)
+    # maybe check if repo exists here?
+    repo = Repository(repopath, user)
+    logstr = f'Added user "{repo.user.user}" to Repo: {repopath}'
+    CONS.log().info(logstr)
+
+
+def push_to_repo(repopath: str, projpath: str, **kwargs):
+    """push new project version to existing repo"""
+    name = kwargs.pop("name", "")
+    email = kwargs.pop("email", "")
+    gituser = kwargs.pop("gituser", "")
+    user = User(name=name, email=email, gituser=gituser)
+    repo = Repository(repopath, user)
+    version = kwargs.pop("version", "")
+    test = kwargs.pop("test", True)
+    relpath = kwargs.pop("relpath", "")
+    repo.push(projpath, version=version, test=test, relpath=relpath)
+
+
+def package_project(pkgpath: str, user: User, **kwargs):
+    """wrapper for _package_project"""
+    upload = kwargs.pop("upload", False)
+    install = kwargs.pop("install", False)
+    pkg = Package(path.realpath(pkgpath), user, **kwargs)
+    pkg.save_toml()
+    pkg.build(upload=upload, install=install)
+    return pkg
 
 
 def cli_main():
-    """runs cli parser and setup_project fxn."""
-    _args = parse()
-    # run functions here depending on parse results
+    """run main cli function"""
+    logger = config_log(file=f"{CONS.NAME}_log.txt")  # , level=logging.INFO
+    args, helpdict = cli.cli_parse()
+    command = getattr(args, cli.CMDNAME)
+    if command is None:
+        print(helpdict[cli.CMDNAME])
+    if command == cli.NEWNAME:
+        new = getattr(args, cli.NEWNAME)
+        if new is None:
+            print(helpdict[cli.NEWNAME])
+        if new == cli.REPONAME:
+            userargs = attrs_to_dict(args, [cli.NAMENAME, cli.EMNAME, cli.GUNAME])
+            init_repo(getattr(args, cli.REPOPATHNAME), **userargs)
+        if new == cli.PROJNAME:
+            init_project(getattr(args, cli.PROJPATHNAME))
+        if new == cli.USERNAME:
+            repopath = getattr(args, cli.REPOPATHNAME)
+            userargs = attrs_to_dict(args, [cli.NAMENAME, cli.EMNAME, cli.GUNAME])
+            init_user(repopath, **userargs)
+    if command == cli.PUSHNAME:
+        repopath = getattr(args, cli.REPOPATHNAME)
+        projpath = getattr(args, cli.PROJPATHNAME)
+        kwnames = [
+            cli.RELNAME,
+            cli.NCNAME,
+            cli.NDNAME,
+            cli.NTNAME,
+            cli.VERNAME,
+            cli.NAMENAME,
+            cli.EMNAME,
+            cli.GUNAME,
+        ]
+        kwargs = attrs_to_dict(args, kwnames)
+        push_to_repo(repopath, projpath, **kwargs)
+    if command == cli.PACKNAME:
+        projpath = getattr(args, cli.PROJPATHNAME)
+        userargs = attrs_to_dict(args, [cli.NAMENAME, cli.EMNAME, cli.GUNAME])
+        user = User(**userargs)
+        kwnames = [cli.VERNAME, cli.UPNAME, cli.INNAME]
+        kwargs = attrs_to_dict(args, kwnames)
+        package_project(projpath, user, **kwargs)
+    for handle in logger.handlers:
+        handle.close()
+
+
+def add_log(func):
+    """add loggin wrapper to function"""
+
+    def log_wrapper(*args, **kwargs):
+        """log wrapper function"""
+        logger = config_log(file=f"{CONS.NAME}_log.txt")
+        func(*args, **kwargs)
+        for handle in logger.handlers:
+            handle.close()
+
+    return log_wrapper
+
+
+class Log:  # pylint: disable=R0903
+    """add logging to functions"""
+
+    init_project = add_log(init_project)
+    init_repo = add_log(init_repo)
+    init_user = add_log(init_user)
+    push_to_repo = add_log(push_to_repo)
+    package_project = add_log(package_project)

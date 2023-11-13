@@ -4,6 +4,7 @@ from getpass import getuser
 import tomli
 import tomli_w
 from .helper import prompt_user
+from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
 
 
 class User:
@@ -28,13 +29,14 @@ class User:
         """prompt"""
         self.name = prompt_user("Name: ", self.name)
         self.email = prompt_user("Email: ", self.email)
-        self.gituser = prompt_user("Github Username", self.gituser)
+        self.gituser = prompt_user("Github Username: ", self.gituser)
 
     def save_config(self, confpath: str):
         """save"""
         self.prompt()
         classtype = type(self).__name__
-        print(f"{classtype} config path: {confpath}")
+        logstr = f"{classtype} config path: {confpath}"
+        CONS.log().debug(logstr)
         with open(confpath, "wb") as writer:
             tomli_w.dump(vars(self), writer)
 
@@ -45,4 +47,5 @@ class User:
         for key, value in userdict.items():
             setattr(self, key, value)
         classtype = type(self).__name__
-        print(f"{classtype} config data: {userdict}")
+        logstr = f"{classtype} config data: {userdict}"
+        CONS.log().debug(logstr)

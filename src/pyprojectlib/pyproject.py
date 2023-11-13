@@ -1,41 +1,18 @@
 """pyproject"""
-from os import path, listdir
+from os import path, listdir, mkdir
 from re import findall
 from platform import python_version
-from shutil import copyfile
 from getpass import getuser
 from requests import get
 import tomli
 import tomli_w
-from git import Repo
-from .helper import create_dirs
-
-
-IGNORELIST = [
-    ".versions/",
-    ".users/",
-    ".git/",
-    ".mypy_cache/",
-    ".vscode/",
-    "build/",
-    "dist/",
-    "docs/conf.txt",  # "src/proj/__pycache__
-    "test/__pycache__",
-    "test/.mypy_cache/",
-    "test/docs",
-    "test/cleandoc_log.txt",
-]
+from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
 
 
 class Project:
     """project"""
 
-    def __init__(
-        self,
-        projpath: str,
-        version: str = "",
-        remote: bool = False,
-    ):
+    def __init__(self, projpath: str, version: str = ""):
         """init"""
         if not path.exists(projpath):
             raise FileNotFoundError(projpath)
@@ -46,7 +23,7 @@ class Project:
         user = getuser()
         self.owner = user
         self.editors = [user]
-        self.remote = remote
+        self.config_keys = ["name", "path", "owner", "editors", "remote"]
 
     def get_config(self, dirpath: str):
         """get"""
@@ -58,12 +35,12 @@ class Project:
 
     def get_description(self) -> str:
         """Get description from README"""
-        readmefile = path.join(self.path, "README.md")
+        readmefile = path.join(self.path, CONS.READFILE)
         with open(readmefile, "r", encoding="utf-8") as readmereader:
             readmestr = readmereader.read()
-        result = findall(r"(?s)# Description(.*?)#", readmestr)
+        result = findall(CONS.DESC_REGEX, readmestr)
         errstr = (
-            "Please include a Description section to your README.md file."
+            f"Please include a Description section to your {CONS.READFILE} file."
             + f"\nReadme Path: {readmefile}"
             + f"\nDesc Search Result: {result}"
         )
@@ -79,39 +56,47 @@ class Project:
         """get_version"""
         if len(self.version) > 0:
             return self.version
-        pkgpage = get(f"https://pypi.org/project/{self.name}/", timeout=10).text
+        try:
+            pkgpage = get(f"{CONS.PYPI}/{self.name}/", timeout=10).text
+        except ConnectionError as _error:
+            pkgpage = "page not found"
+        notfoundcheck1 = "page not found" in pkgpage.lower()
+        notfoundcheck2 = "error code 404" in pkgpage.lower()
+        notfoundcheck3 = "couldn't find this page" in pkgpage.lower()
         if path.exists(versionspath):
             versions = listdir(versionspath)
             if len(versions) == 0:
                 return "0.0.1"
             versions.sort(key=lambda v: [int(n) for n in v.split(".")])
             latest_version = versions[-1]
-        elif "page not found" not in pkgpage and "404" not in pkgpage:
+        elif not any([notfoundcheck1, notfoundcheck2, notfoundcheck3]):
             start_ind = pkgpage.find('<h1 class="package-header__name">') + 33
             latest_start = pkgpage[start_ind:]
             latest = latest_start[0 : latest_start.find("</h1>")]
             latest_version = latest.strip().split(" ")[1]
         else:
+            CONS.log().debug("Version could not be found")
+            mkdir(versionspath)
             return "0.0.1"
-            # raise FileNotFoundError(versionspath)
         latest_split = latest_version.split(".")
         latest_split[2] = str(int(latest_split[2]) + 1)
         version = ".".join(latest_split)
-        print(f"version = {latest_version} >> {version}")
+        logstr = f'Project "{self.name}" Version (old >> new) = {latest_version} >> {version}'
+        CONS.log().info(logstr)
         return version
 
     def _prompt(self):
         """prompt"""
-        print("_prompt function is meant to be overwritten")
+        CONS.log().debug("_prompt function is meant to be overwritten")
 
     def _save_config(self, confpath: str):
         """save"""
         self._prompt()
         classtype = type(self).__name__
-        print(f"{classtype} config path: {confpath}")
-        config_keys = ["name", "path", "owner", "editors", "remote"]
+        logstr = f"{classtype} config path: {confpath}"
+        CONS.log().debug(logstr)
         items = vars(self).items()
-        tomldict = {key: value for key, value in items if key in config_keys}
+        tomldict = {key: value for key, value in items if key in self.config_keys}
         with open(confpath, "wb") as writer:
             tomli_w.dump(tomldict, writer)
 
@@ -122,33 +107,5 @@ class Project:
         for key, value in userdict.items():
             setattr(self, key, value)
         classtype = type(self).__name__
-        print(f"{classtype} config data: {userdict}")
-
-
-def init_project_dir(dirpath: str = "."):
-    """create"""
-    dirpath = path.realpath(dirpath)
-    dirdict = {
-        "src": {path.basename(dirpath): {}},
-        "docs": {},
-        "test": {"examples": {}},
-        ".versions": {},
-    }
-    print(f"\nCreating Empty Project: {dirdict}\n")
-    create_dirs(dirpath, dirdict)
-    Repo.init(dirpath)
-    # Create .gitignore file
-    with open(path.join(dirpath, ".gitignore"), "w", encoding="utf-8") as writer:
-        for item in IGNORELIST:
-            writer.write(f"{item}\n")
-    # Create requirements.txt
-    with open(path.join(dirpath, "requirements.txt"), "wb") as writer:
-        writer.write(b"")
-    # create readme and license
-    scriptpath = path.dirname(path.realpath(__file__))
-    newreadme = path.join(dirpath, "README.md")
-    basereadme = path.join(scriptpath, "README.temp")
-    copyfile(basereadme, newreadme)
-    newlicense = path.join(dirpath, "LICENSE.txt")
-    baselicense = path.join(scriptpath, "LICENSE.temp")
-    copyfile(baselicense, newlicense)
+        logstr = f"{classtype} config data: {userdict}"
+        CONS.log().debug(logstr)

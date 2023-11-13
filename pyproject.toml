@@ -1,5 +1,5 @@
 [project]
-license = { file = "LICENSE.txt" }
+license = { text = "GNU GPLv3" }
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -9,10 +9,12 @@ classifiers = [
 ]
 
 name = "pyprojectlib"
-version = "0.0.1"
+version = "0.0.2"
 authors = [{ name = "Jason Krist", email = "jkrist2696@gmail.com" }]
 description = ""
 requires-python = ">=3.12.0"
-dependencies = ["cleandoc>=0.0.5","GitPython>=3.1.40","pipreqs>=0.4.13","pytest>=7.4.3","cleandoc>=0.0.5","build","twine","tomli","tomli-w","GitPython","pytest","pipreqs","types-requests","types-setuptools"]
+dependencies = ["cleandoc>=0.0.7","GitPython>=3.1.40","pipreqs>=0.4.13","pytest>=7.4.3","build","twine","tomli","tomli-w","types-requests","types-setuptools"]
+[project.scripts]
+ppl="pyprojectlib:cli_main"
 [project.urls]
 "Homepage" = "https://github.com/jkrist2696/pyprojectlib"

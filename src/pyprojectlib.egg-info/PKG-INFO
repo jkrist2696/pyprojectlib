@@ -1,3 +1,27 @@
+Metadata-Version: 2.1
+Name: pyprojectlib
+Version: 0.0.2
+Author-email: Jason Krist <jkrist2696@gmail.com>
+License: GNU GPLv3
+Project-URL: Homepage, https://github.com/jkrist2696/pyprojectlib
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: Unix
+Requires-Python: >=3.12.0
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: cleandoc>=0.0.7
+Requires-Dist: GitPython>=3.1.40
+Requires-Dist: pipreqs>=0.4.13
+Requires-Dist: pytest>=7.4.3
+Requires-Dist: build
+Requires-Dist: twine
+Requires-Dist: tomli
+Requires-Dist: tomli-w
+Requires-Dist: types-requests
+Requires-Dist: types-setuptools
+
 # PyProjectLib
 
 

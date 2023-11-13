@@ -1,55 +1,67 @@
-"""pypackage"""
+"""
+pypackage
+
+Manual Build Steps:
+    python -m build
+    twine check dist/*
+    pip install .
+    twine upload dist/*
+
+"""
 from os import path, mkdir
-import sys
 from re import split
 import pipreqs.pipreqs as pr  # type: ignore # pylint: disable=E0401
+from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
 from .helper import prompt_user, run_capture_out
 from .pyuser import User
 from .pyproject import Project
 
 
-TOMLSTR_START = """[project]
-license = { text = "GNU GPLv3" }
-readme = "README.md"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    'Operating System :: Microsoft :: Windows',
-    'Operating System :: Unix',
-]
-
-"""
-
-
 class Package(Project):
     """package"""
 
-    def __init__(self, pkgpath: str, user: User, clifxn: str = "", **kwargs):
+    def __init__(self, pkgpath: str, user: User, **kwargs):
         """init"""
-        self.clifxn = clifxn
+        # , cli: str = ""
+        # self.remote = False
+        # example cli: {self.name} = "{self.name}:{self.clifxn}"
+        self.cli = kwargs.pop("cli", "")
         super().__init__(pkgpath, **kwargs)
+        self.config_keys.append("cli")
         self.description = self.get_description()
         self.dep_pkgs: list[str] = []
         self.get_dep_pkgs()
-        self.version = self.get_version(path.join(self.path, ".versions"))
-        scriptpath = path.dirname(path.realpath(__file__))
-        userconfig = path.join(scriptpath, "..", "..", ".users")
+        if len(self.version) == 0:
+            self.version: str = self.get_version(
+                path.join(self.path, CONS.VERSIONS_DIR)
+            )
+        userconfig = path.join(CONS.ENVPATH, CONS.USERS_DIR)
         if not path.exists(userconfig):
             mkdir(userconfig)
         self.author = user
         self.author.get_config(userconfig)
+        projconfig = path.join(CONS.ENVPATH, CONS.PROJECTS_DIR)
+        if not path.exists(projconfig):
+            mkdir(projconfig)
+        self.get_config(projconfig)
+        self.required = [
+            CONS.REQFILE,
+            CONS.READFILE,
+            CONS.TEST_DIR,
+            f"src/{self.name}",
+        ]
 
     def get_dep_pkgs(self):
         """get dep pkgs"""
         self._get_pipreqs()
         self._get_requirements()
         self._remove_dep_dups()
-        print(f"dependent packages: {self.dep_pkgs}")
+        self._save_requirements()
 
     def save_toml(self):
         """save_toml"""
         depstr = ",".join([f'"{pkg}"' for pkg in self.dep_pkgs])
-        toml_str = TOMLSTR_START + f'name = "{self.name}"\n'
+        toml_str = CONS.TOMLSTR_START + f'name = "{self.name}"\n'
         toml_str += f'version = "{self.version}"\n'
         author = self.author
         toml_str += 'authors = [{ name = "'
@@ -57,39 +69,58 @@ class Package(Project):
         toml_str += f'description = "{self.description}"\n'
         toml_str += f'requires-python = ">={self.pyversion}"\n'
         toml_str += f"dependencies = [{depstr}]\n"
-        if len(self.clifxn) > 0:
-            toml_str += '[project.scripts]\n"'
-            toml_str += f'{self.name} = "{self.name}:{self.clifxn}"\n'
+        exts = ["*.template", ".typed"]
+        toml_str += f"[tool.setuptools]\npackage-data = {"sample" = ["*.dat"]}"
+        if len(self.cli.strip()) > 0:
+            toml_str += "[project.scripts]\n"
+            toml_str += f"{self.cli}\n"
         if len(author.gituser) > 0:
-            toml_str += '[project.urls]\n"Homepage" = "https://github.com/'
+            toml_str += f'[project.urls]\n"Homepage" = "{CONS.GITHUB}/'
             toml_str += f'{author.gituser}/{self.name}"\n'
         tomlpath = path.join(self.path, "pyproject.toml")
+        logstr = f"Saving pyproject.toml: {tomlpath}"
+        CONS.log().info(logstr)
         with open(tomlpath, "wb") as writer:
             writer.write(bytes(toml_str, encoding="utf-8"))
 
-    def build(self):
+    def build(self, upload=False, install=False):
         """build"""
-        pyexe = sys.executable
-        envpath = path.dirname(pyexe)
-        pipexe = path.join(envpath, "Scripts", "pip3")
-        twineexe = path.join(envpath, "Scripts", "twine")
+        buildlog = f'Building Package: "{self.name}"'
+        checklog = f'Checking Package: "{self.name}"'
         arglists = [
-            [pyexe, "-m", "build"],
-            [twineexe, "check", "dist/*"],
-            [pipexe, "install", "."],
-            # ["twine", "upload", "dist/*"], # twine upload dist/*
+            (buildlog, [CONS.PYEXE, "-m", "build"]),
+            (checklog, [CONS.TWINEEXE, "check", "dist/*"]),
         ]
-        for arglist in arglists:
+        if install:
+            installlog = f'Installing Package: "{self.name}"'
+            arglists.append((installlog, [CONS.PIPEXE, "install", "."]))
+        if upload:
+            uploadlog = f'Uploading Package: "{self.name}"'
+            arglists.append((uploadlog, [CONS.TWINEEXE, "upload", "dist/*"]))
+        for logstr, arglist in arglists:
+            CONS.log().info(logstr)
             stdout, stderr = run_capture_out(arglist, cwd=self.path)
-            print(f"exe: {arglist[0]}\n")
-            print(f"stdout:\n{stdout}\n")
+            logstr = f"stdout from args: {arglist}\n\n{stdout}\n"
+            CONS.log().debug(logstr)
             if len(stderr.strip()) > 0:
-                print(f"blderr:\n{stderr}\n")
+                logstr = f"stderr from args: {arglist}\n\n{stderr}\n"
+                CONS.log().error(logstr)
                 raise ChildProcessError(stderr)
+        if path.exists(path.join(self.path, CONS.VERSIONS_DIR)):
+            mkdir(path.join(self.path, CONS.VERSIONS_DIR, self.version))
 
     def _prompt(self):
         """prompt"""
-        self.clifxn = prompt_user("Command-Line Interface Function: ", self.clifxn)
+        # Add remote? self. = prompt_user(" ", self.)
+        self.cli = prompt_user("Command-Line Interface String: ", self.cli)
+        if len(self.cli) == 0:
+            self.cli = " "
+
+    def _check_required(self):
+        """check"""
+        for item in self.required:
+            if not path.exists(path.join(self.path, item)):
+                raise FileNotFoundError(path.join(self.path, item))
 
     def _get_pipreqs(self):
         """Get Module Dependencies and their Versions with pipreqs"""
@@ -103,7 +134,8 @@ class Package(Project):
             if pkgdict_orig["name"] not in pkgdicts_names:
                 pkgdicts.append(pkgdict_orig)
         pkglist = [pkgdict["name"] + ">=" + pkgdict["version"] for pkgdict in pkgdicts]
-        print(f"pipreqs packages: {pkglist}")
+        logstr = f"    pipreqs packages: {pkglist}"
+        CONS.log().debug(logstr)
         self.dep_pkgs.extend(pkglist)
 
     def _get_requirements(self):
@@ -112,30 +144,42 @@ class Package(Project):
         with open(reqfile, "r", encoding="utf-8") as reqreader:
             reqlines = reqreader.readlines()
         reqlines = [line.strip() for line in reqlines if len(line.strip()) > 0]
-        print(f"requirements.txt packages: {reqlines}")
+        logstr = f"    requirements.txt packages: {reqlines}"
+        CONS.log().debug(logstr)
         self.dep_pkgs.extend(reqlines)
 
     def _remove_dep_dups(self):
         """remove duplicate packages"""
-        new_dep_pkgs = []
-        new_pkgnames = []
+        new_dep_pkgs: list[str] = []
+        new_pkgnames: list[str] = []
         for pkgstr in self.dep_pkgs:
-            pkgname = split("~<>=", pkgstr)[0]
-            if pkgname in new_pkgnames:
+            pkgsplit = split("[~<>=]", pkgstr)
+            pkgname = pkgsplit[0]
+            skipappend = False
+            for np, new_pkgname in enumerate(new_pkgnames):
+                if pkgname != new_pkgname:
+                    continue
+                skipappend = True
+                if len(pkgstr) <= len(new_dep_pkgs[np]):
+                    continue
+                new_dep_pkgs[np] = pkgstr
+            if skipappend:
                 continue
             new_dep_pkgs.append(pkgstr)
             new_pkgnames.append(pkgname)
+        self.dep_pkgs = new_dep_pkgs
+        logstr = f"    dependent packages: {self.dep_pkgs}"
+        CONS.log().debug(logstr)
 
-
-def package_project(pkgpath: str, user: User, **kwargs):
-    """package"""
-    pkg = Package(path.realpath(pkgpath), user, **kwargs)
-    pkg.save_toml()
-    pkg.build()
+    def _save_requirements(self):
+        """resave edited requirements.txt"""
+        reqfile = path.join(self.path, "requirements.txt")
+        with open(reqfile, "w", encoding="utf-8") as writer:
+            for pkgstr in self.dep_pkgs:
+                writer.write(f"{pkgstr}\n")
 
 
 # TOML EXTRAS BELOW:
-
 # keywords = [""] add later?
 # 'Operating System :: POSIX',
 # 'Operating System :: MacOS',
@@ -145,8 +189,6 @@ def package_project(pkgpath: str, user: User, **kwargs):
 # [build-system] this is default right?
 # requires = ["setuptools", "wheel"]
 # build-backend = "setuptools.build_meta"
-
-
 # I think below is covered automatically? I should test though
 # ["pkg.assets"]
 # pykwargs["package_data"] = ({f"{pkgname}": ["assets/*"]},)
