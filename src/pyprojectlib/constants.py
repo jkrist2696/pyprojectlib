@@ -31,7 +31,11 @@ ENVPATH = path.dirname(PYEXE)
 PIPEXE = path.join(ENVPATH, "Scripts", "pip3")
 TWINEEXE = path.join(ENVPATH, "Scripts", "twine")
 
-TOMLSTR_START = """[project]
+TOMLSTR_START = """
+[build-system]
+requires = ["setuptools", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+[project]
 license = { text = "GPL-3.0-only" }
 readme = "README.md"
 classifiers = [

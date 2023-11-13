@@ -69,8 +69,7 @@ class Package(Project):
         toml_str += f'description = "{self.description}"\n'
         toml_str += f'requires-python = ">={self.pyversion}"\n'
         toml_str += f"dependencies = [{depstr}]\n"
-        exts = ["*.template", ".typed"]
-        toml_str += f"[tool.setuptools]\npackage-data = {"sample" = ["*.dat"]}"
+        # toml_str += f"[tool.setuptools]\npackage-data = {"sample" = ["*.dat"]}"
         if len(self.cli.strip()) > 0:
             toml_str += "[project.scripts]\n"
             toml_str += f"{self.cli}\n"
