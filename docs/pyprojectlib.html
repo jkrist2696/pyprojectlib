@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyprojectlib package &mdash; pyprojectlib 0.0.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="README" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyprojectlib
+          </a>
+              <div class="version">
+                0.0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyprojectlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.Log"><code class="docutils literal notranslate"><span class="pre">Log</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.Log.init_project"><code class="docutils literal notranslate"><span class="pre">Log.init_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.Log.init_repo"><code class="docutils literal notranslate"><span class="pre">Log.init_repo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.Log.init_user"><code class="docutils literal notranslate"><span class="pre">Log.init_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.Log.package_project"><code class="docutils literal notranslate"><span class="pre">Log.package_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.Log.push_to_repo"><code class="docutils literal notranslate"><span class="pre">Log.push_to_repo()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.add_log"><code class="docutils literal notranslate"><span class="pre">add_log()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.cli_main"><code class="docutils literal notranslate"><span class="pre">cli_main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.init_project"><code class="docutils literal notranslate"><span class="pre">init_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.init_repo"><code class="docutils literal notranslate"><span class="pre">init_repo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.init_user"><code class="docutils literal notranslate"><span class="pre">init_user()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.package_project"><code class="docutils literal notranslate"><span class="pre">package_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyprojectlib.push_to_repo"><code class="docutils literal notranslate"><span class="pre">push_to_repo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.cli">pyprojectlib.cli module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.cli.cli_parse"><code class="docutils literal notranslate"><span class="pre">cli_parse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.cli.create_parser"><code class="docutils literal notranslate"><span class="pre">create_parser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.cli.print_all_help"><code class="docutils literal notranslate"><span class="pre">print_all_help()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.constants">pyprojectlib.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.helper">pyprojectlib.helper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.attrs_to_dict"><code class="docutils literal notranslate"><span class="pre">attrs_to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.check_version_format"><code class="docutils literal notranslate"><span class="pre">check_version_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.config_log"><code class="docutils literal notranslate"><span class="pre">config_log()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.create_dirs"><code class="docutils literal notranslate"><span class="pre">create_dirs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.prompt_user"><code class="docutils literal notranslate"><span class="pre">prompt_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.remove_item"><code class="docutils literal notranslate"><span class="pre">remove_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.helper.run_capture_out"><code class="docutils literal notranslate"><span class="pre">run_capture_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.pypackage">pyprojectlib.pypackage module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.pypackage.Package"><code class="docutils literal notranslate"><span class="pre">Package</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package.__init__"><code class="docutils literal notranslate"><span class="pre">Package.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package._check_required"><code class="docutils literal notranslate"><span class="pre">Package._check_required()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package._get_pipreqs"><code class="docutils literal notranslate"><span class="pre">Package._get_pipreqs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package._get_requirements"><code class="docutils literal notranslate"><span class="pre">Package._get_requirements()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package._prompt"><code class="docutils literal notranslate"><span class="pre">Package._prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package._remove_dep_dups"><code class="docutils literal notranslate"><span class="pre">Package._remove_dep_dups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package._save_requirements"><code class="docutils literal notranslate"><span class="pre">Package._save_requirements()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package.build"><code class="docutils literal notranslate"><span class="pre">Package.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package.get_dep_pkgs"><code class="docutils literal notranslate"><span class="pre">Package.get_dep_pkgs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pypackage.Package.save_toml"><code class="docutils literal notranslate"><span class="pre">Package.save_toml()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.pyproject">pyprojectlib.pyproject module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.pyproject.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project._load_config"><code class="docutils literal notranslate"><span class="pre">Project._load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project._prompt"><code class="docutils literal notranslate"><span class="pre">Project._prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project._save_config"><code class="docutils literal notranslate"><span class="pre">Project._save_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project.get_config"><code class="docutils literal notranslate"><span class="pre">Project.get_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project.get_description"><code class="docutils literal notranslate"><span class="pre">Project.get_description()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyproject.Project.get_version"><code class="docutils literal notranslate"><span class="pre">Project.get_version()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.pyrepo">pyprojectlib.pyrepo module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject"><code class="docutils literal notranslate"><span class="pre">RepoProject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject.__init__"><code class="docutils literal notranslate"><span class="pre">RepoProject.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject._check_args"><code class="docutils literal notranslate"><span class="pre">RepoProject._check_args()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject._check_required"><code class="docutils literal notranslate"><span class="pre">RepoProject._check_required()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject._copy_and_backup"><code class="docutils literal notranslate"><span class="pre">RepoProject._copy_and_backup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject._prompt"><code class="docutils literal notranslate"><span class="pre">RepoProject._prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject._remove_last_version"><code class="docutils literal notranslate"><span class="pre">RepoProject._remove_last_version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject.package"><code class="docutils literal notranslate"><span class="pre">RepoProject.package()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.RepoProject.update"><code class="docutils literal notranslate"><span class="pre">RepoProject.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository"><code class="docutils literal notranslate"><span class="pre">Repository</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository.__init__"><code class="docutils literal notranslate"><span class="pre">Repository.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository._get_projects"><code class="docutils literal notranslate"><span class="pre">Repository._get_projects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository.get_owner"><code class="docutils literal notranslate"><span class="pre">Repository.get_owner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository.pull"><code class="docutils literal notranslate"><span class="pre">Repository.pull()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository.push"><code class="docutils literal notranslate"><span class="pre">Repository.push()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyprojectlib.pyuser">pyprojectlib.pyuser module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyprojectlib.pyuser.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyuser.User.__init__"><code class="docutils literal notranslate"><span class="pre">User.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyuser.User.get_config"><code class="docutils literal notranslate"><span class="pre">User.get_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyuser.User.load_config"><code class="docutils literal notranslate"><span class="pre">User.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyuser.User.prompt"><code class="docutils literal notranslate"><span class="pre">User.prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyprojectlib.pyuser.User.save_config"><code class="docutils literal notranslate"><span class="pre">User.save_config()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyprojectlib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyprojectlib package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyprojectlib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pyprojectlib">
+<span id="pyprojectlib-package"></span><h1>pyprojectlib package<a class="headerlink" href="#module-pyprojectlib" title="Link to this heading"></a></h1>
+<p>Written by Jason Krist</p>
+<p># to do list:
+# check if config has changed and re-save it???
+# Add better options for outputting logfile or not
+# remote git pushing
+# pull packages from local repo
+# ADD VALIDATION FOR EMAIL AND VERSION?
+# (LOW) update my docstrings
+# DO SOME TESTING: WSL linux, test editors list, project exists, etc.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyprojectlib.Log">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">Log</span></span><a class="reference internal" href="_modules/pyprojectlib.html#Log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.Log" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>add logging to functions</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.Log.init_project">
+<span class="sig-name descname"><span class="pre">init_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyprojectlib.Log.init_project" title="Link to this definition"></a></dt>
+<dd><p>log wrapper function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.Log.init_repo">
+<span class="sig-name descname"><span class="pre">init_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyprojectlib.Log.init_repo" title="Link to this definition"></a></dt>
+<dd><p>log wrapper function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.Log.init_user">
+<span class="sig-name descname"><span class="pre">init_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyprojectlib.Log.init_user" title="Link to this definition"></a></dt>
+<dd><p>log wrapper function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.Log.package_project">
+<span class="sig-name descname"><span class="pre">package_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyprojectlib.Log.package_project" title="Link to this definition"></a></dt>
+<dd><p>log wrapper function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.Log.push_to_repo">
+<span class="sig-name descname"><span class="pre">push_to_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyprojectlib.Log.push_to_repo" title="Link to this definition"></a></dt>
+<dd><p>log wrapper function</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.add_log">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">add_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#add_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.add_log" title="Link to this definition"></a></dt>
+<dd><p>add loggin wrapper to function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.cli_main">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">cli_main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#cli_main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.cli_main" title="Link to this definition"></a></dt>
+<dd><p>run main cli function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.init_project">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">init_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#init_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.init_project" title="Link to this definition"></a></dt>
+<dd><p>wrapper for _init_project_dir</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.init_repo">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">init_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#init_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.init_repo" title="Link to this definition"></a></dt>
+<dd><p>wrapper for _init_repo_dir</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.init_user">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">init_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repopath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#init_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.init_user" title="Link to this definition"></a></dt>
+<dd><p>add a new user to the repo and save their config</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.package_project">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">package_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyuser.User" title="pyprojectlib.pyuser.User"><span class="pre">User</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#package_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.package_project" title="Link to this definition"></a></dt>
+<dd><p>wrapper for _package_project</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.push_to_repo">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.</span></span><span class="sig-name descname"><span class="pre">push_to_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repopath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib.html#push_to_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.push_to_repo" title="Link to this definition"></a></dt>
+<dd><p>push new project version to existing repo</p>
+</dd></dl>
+
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-pyprojectlib.cli">
+<span id="pyprojectlib-cli-module"></span><h2>pyprojectlib.cli module<a class="headerlink" href="#module-pyprojectlib.cli" title="Link to this heading"></a></h2>
+<p>Written by Jason Krist</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.cli.cli_parse">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.cli.</span></span><span class="sig-name descname"><span class="pre">cli_parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/cli.html#cli_parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.cli.cli_parse" title="Link to this definition"></a></dt>
+<dd><p>Run command line parsing</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.cli.create_parser">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.cli.</span></span><span class="sig-name descname"><span class="pre">create_parser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/cli.html#create_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.cli.create_parser" title="Link to this definition"></a></dt>
+<dd><p>create parser object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.cli.print_all_help">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.cli.</span></span><span class="sig-name descname"><span class="pre">print_all_help</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">helpdict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/cli.html#print_all_help"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.cli.print_all_help" title="Link to this definition"></a></dt>
+<dd><p>print all strings in dictionary</p>
+</dd></dl>
+
+</section>
+<section id="module-pyprojectlib.constants">
+<span id="pyprojectlib-constants-module"></span><h2>pyprojectlib.constants module<a class="headerlink" href="#module-pyprojectlib.constants" title="Link to this heading"></a></h2>
+<p>Written by Jason Krist</p>
+</section>
+<section id="module-pyprojectlib.helper">
+<span id="pyprojectlib-helper-module"></span><h2>pyprojectlib.helper module<a class="headerlink" href="#module-pyprojectlib.helper" title="Link to this heading"></a></h2>
+<p>helpers</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.attrs_to_dict">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">attrs_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namelist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/pyprojectlib/helper.html#attrs_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.attrs_to_dict" title="Link to this definition"></a></dt>
+<dd><p>create kwargs from list of arg names</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.check_version_format">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">check_version_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/helper.html#check_version_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.check_version_format" title="Link to this definition"></a></dt>
+<dd><p>check if version string abides by criteria</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.config_log">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">config_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/helper.html#config_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.config_log" title="Link to this definition"></a></dt>
+<dd><p>Configure log file using logging module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str = &quot;&quot;</em>) -- Path to logfile to write</p></li>
+<li><p><strong>newfile</strong> (<em>bool = True</em>) -- Set to false to not overwrite existing log file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>logger object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.create_dirs">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">create_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">srcpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dirdict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/helper.html#create_dirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.create_dirs" title="Link to this definition"></a></dt>
+<dd><p>_summary_
+:param srcpath: _description_
+:type srcpath: str
+:param dirdict: _description_
+:type dirdict: dict[dict]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.prompt_user">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">prompt_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/helper.html#prompt_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.prompt_user" title="Link to this definition"></a></dt>
+<dd><p>Prompt user for input if default is empty string
+:param prompt: text prompt to display to user
+:type prompt: str
+:param default: value returned if it's length is &gt; 0
+:type default: str</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.remove_item">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">remove_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itempath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/helper.html#remove_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.remove_item" title="Link to this definition"></a></dt>
+<dd><p>remote item</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprojectlib.helper.run_capture_out">
+<span class="sig-prename descclassname"><span class="pre">pyprojectlib.helper.</span></span><span class="sig-name descname"><span class="pre">run_capture_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyprojectlib/helper.html#run_capture_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.helper.run_capture_out" title="Link to this definition"></a></dt>
+<dd><p>Run subprocess command and return the stdout and stderr.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) -- Pass list of shell commands to subprocess.run</p></li>
+<li><p><strong>shell</strong> (<em>bool</em>) -- Pass shell keyword argument to subprocess.run</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>stdout</strong> (<em>str</em>) -- Standard Output returned from shell</p></li>
+<li><p><strong>stderr</strong> (<em>str</em>) -- Standard Error returned from shell</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyprojectlib.pypackage">
+<span id="pyprojectlib-pypackage-module"></span><h2>pyprojectlib.pypackage module<a class="headerlink" href="#module-pyprojectlib.pypackage" title="Link to this heading"></a></h2>
+<p>pypackage</p>
+<dl class="simple">
+<dt>Manual Build Steps:</dt><dd><p>python -m build
+twine check dist/*
+pip install .
+twine upload dist/*</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyprojectlib.pypackage.</span></span><span class="sig-name descname"><span class="pre">Package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyuser.User" title="pyprojectlib.pyuser.User"><span class="pre">User</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyprojectlib.pyproject.Project" title="pyprojectlib.pyproject.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a></p>
+<p>package</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyuser.User" title="pyprojectlib.pyuser.User"><span class="pre">User</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package.__init__" title="Link to this definition"></a></dt>
+<dd><p>init</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package._check_required">
+<span class="sig-name descname"><span class="pre">_check_required</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package._check_required"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package._check_required" title="Link to this definition"></a></dt>
+<dd><p>check</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package._get_pipreqs">
+<span class="sig-name descname"><span class="pre">_get_pipreqs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package._get_pipreqs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package._get_pipreqs" title="Link to this definition"></a></dt>
+<dd><p>Get Module Dependencies and their Versions with pipreqs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package._get_requirements">
+<span class="sig-name descname"><span class="pre">_get_requirements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package._get_requirements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package._get_requirements" title="Link to this definition"></a></dt>
+<dd><p>Get dependencies from requirements.txt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package._prompt">
+<span class="sig-name descname"><span class="pre">_prompt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package._prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package._prompt" title="Link to this definition"></a></dt>
+<dd><p>prompt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package._remove_dep_dups">
+<span class="sig-name descname"><span class="pre">_remove_dep_dups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package._remove_dep_dups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package._remove_dep_dups" title="Link to this definition"></a></dt>
+<dd><p>remove duplicate packages</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package._save_requirements">
+<span class="sig-name descname"><span class="pre">_save_requirements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package._save_requirements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package._save_requirements" title="Link to this definition"></a></dt>
+<dd><p>resave edited requirements.txt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">install</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package.build" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package.get_dep_pkgs">
+<span class="sig-name descname"><span class="pre">get_dep_pkgs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package.get_dep_pkgs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package.get_dep_pkgs" title="Link to this definition"></a></dt>
+<dd><p>get dep pkgs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pypackage.Package.save_toml">
+<span class="sig-name descname"><span class="pre">save_toml</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pypackage.html#Package.save_toml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pypackage.Package.save_toml" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyprojectlib.pyproject">
+<span id="pyprojectlib-pyproject-module"></span><h2>pyprojectlib.pyproject module<a class="headerlink" href="#module-pyprojectlib.pyproject" title="Link to this heading"></a></h2>
+<p>pyproject</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyprojectlib.pyproject.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>project</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project.__init__" title="Link to this definition"></a></dt>
+<dd><p>init</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project._load_config">
+<span class="sig-name descname"><span class="pre">_load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project._load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project._load_config" title="Link to this definition"></a></dt>
+<dd><p>load</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project._prompt">
+<span class="sig-name descname"><span class="pre">_prompt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project._prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project._prompt" title="Link to this definition"></a></dt>
+<dd><p>prompt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project._save_config">
+<span class="sig-name descname"><span class="pre">_save_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project._save_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project._save_config" title="Link to this definition"></a></dt>
+<dd><p>save</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project.get_config" title="Link to this definition"></a></dt>
+<dd><p>get</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project.get_description">
+<span class="sig-name descname"><span class="pre">get_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project.get_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project.get_description" title="Link to this definition"></a></dt>
+<dd><p>Get description from README</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyproject.Project.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">versionspath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/pyprojectlib/pyproject.html#Project.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyproject.Project.get_version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyprojectlib.pyrepo">
+<span id="pyprojectlib-pyrepo-module"></span><h2>pyprojectlib.pyrepo module<a class="headerlink" href="#module-pyprojectlib.pyrepo" title="Link to this heading"></a></h2>
+<p>Written by Jason Krist</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyprojectlib.pyrepo.</span></span><span class="sig-name descname"><span class="pre">RepoProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository" title="pyprojectlib.pyrepo.Repository"><span class="pre">Repository</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyprojectlib.pyproject.Project" title="pyprojectlib.pyproject.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a></p>
+<p>repoproject</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyrepo.Repository" title="pyprojectlib.pyrepo.Repository"><span class="pre">Repository</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject.__init__" title="Link to this definition"></a></dt>
+<dd><p>init</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject._check_args">
+<span class="sig-name descname"><span class="pre">_check_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject._check_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject._check_args" title="Link to this definition"></a></dt>
+<dd><p>check args</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject._check_required">
+<span class="sig-name descname"><span class="pre">_check_required</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject._check_required"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject._check_required" title="Link to this definition"></a></dt>
+<dd><p>check</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject._copy_and_backup">
+<span class="sig-name descname"><span class="pre">_copy_and_backup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject._copy_and_backup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject._copy_and_backup" title="Link to this definition"></a></dt>
+<dd><p>copy backup</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject._prompt">
+<span class="sig-name descname"><span class="pre">_prompt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject._prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject._prompt" title="Link to this definition"></a></dt>
+<dd><p>prompt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject._remove_last_version">
+<span class="sig-name descname"><span class="pre">_remove_last_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject._remove_last_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject._remove_last_version" title="Link to this definition"></a></dt>
+<dd><p>remove old files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject.package">
+<span class="sig-name descname"><span class="pre">package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject.package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject.package" title="Link to this definition"></a></dt>
+<dd><p>build project into package</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.RepoProject.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">git</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#RepoProject.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.RepoProject.update" title="Link to this definition"></a></dt>
+<dd><p>check code quality, then copy over new version</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.Repository">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyprojectlib.pyrepo.</span></span><span class="sig-name descname"><span class="pre">Repository</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repopath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyuser.User" title="pyprojectlib.pyuser.User"><span class="pre">User</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#Repository"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.Repository" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>local repo for saving code modules</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.Repository.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repopath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyprojectlib.pyuser.User" title="pyprojectlib.pyuser.User"><span class="pre">User</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#Repository.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.Repository.__init__" title="Link to this definition"></a></dt>
+<dd><p>init</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.Repository._get_projects">
+<span class="sig-name descname"><span class="pre">_get_projects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#Repository._get_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.Repository._get_projects" title="Link to this definition"></a></dt>
+<dd><p>get projects in repo</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.Repository.get_owner">
+<span class="sig-name descname"><span class="pre">get_owner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#Repository.get_owner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.Repository.get_owner" title="Link to this definition"></a></dt>
+<dd><p>get</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.Repository.pull">
+<span class="sig-name descname"><span class="pre">pull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#Repository.pull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.Repository.pull" title="Link to this definition"></a></dt>
+<dd><p>get project version</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyrepo.Repository.push">
+<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyrepo.html#Repository.push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyrepo.Repository.push" title="Link to this definition"></a></dt>
+<dd><p>add project</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyprojectlib.pyuser">
+<span id="pyprojectlib-pyuser-module"></span><h2>pyprojectlib.pyuser module<a class="headerlink" href="#module-pyprojectlib.pyuser" title="Link to this heading"></a></h2>
+<p>user</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyprojectlib.pyuser.User">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyprojectlib.pyuser.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gituser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyuser.html#User"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyuser.User" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>user</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyuser.User.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gituser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyuser.html#User.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyuser.User.__init__" title="Link to this definition"></a></dt>
+<dd><p>init</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyuser.User.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyuser.html#User.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyuser.User.get_config" title="Link to this definition"></a></dt>
+<dd><p>get</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyuser.User.load_config">
+<span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyuser.html#User.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyuser.User.load_config" title="Link to this definition"></a></dt>
+<dd><p>load</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyuser.User.prompt">
+<span class="sig-name descname"><span class="pre">prompt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyuser.html#User.prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyuser.User.prompt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyprojectlib.pyuser.User.save_config">
+<span class="sig-name descname"><span class="pre">save_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprojectlib/pyuser.html#User.save_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprojectlib.pyuser.User.save_config" title="Link to this definition"></a></dt>
+<dd><p>save</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="README" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, jkris.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

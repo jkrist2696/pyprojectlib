@@ -2,8 +2,6 @@
 Written by Jason Krist
 
 # to do list:
-# (HIGH) FIX PY.TYPED NOT FOUND
-# (HIGH) FIX LOGGING ISSUE
 # check if config has changed and re-save it???
 # Add better options for outputting logfile or not
 # remote git pushing
@@ -15,7 +13,6 @@ Written by Jason Krist
 """
 
 from os import path
-import logging
 from shutil import copyfile
 from git import Repo
 from .helper import config_log, attrs_to_dict, create_dirs
@@ -102,11 +99,14 @@ def push_to_repo(repopath: str, projpath: str, **kwargs):
 
 def package_project(pkgpath: str, user: User, **kwargs):
     """wrapper for _package_project"""
+    logger = config_log()
     upload = kwargs.pop("upload", False)
     install = kwargs.pop("install", False)
     pkg = Package(path.realpath(pkgpath), user, **kwargs)
     pkg.save_toml()
     pkg.build(upload=upload, install=install)
+    for handle in logger.handlers:
+        handle.close()
     return pkg
 
 

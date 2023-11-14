@@ -16,13 +16,13 @@ import pyprojectlib as ppl  # type: ignore # pylint: disable=E0401,C0413,E0611
 
 def package():
     """function for packaging modules"""
-    pkgpath = path.join(testdir, "../")
+    pkgpath = path.realpath(path.join(testdir, "../"))
     srcpath = path.join(pkgpath, "src", path.basename(pkgpath))
     # Run Cleandoc
     cleandoc_all(srcpath)
     # Package this project
     user = User(name="Jason Krist", email="jkrist2696@gmail.com", gituser="jkrist2696")
-    ppl.Log.package_project(pkgpath, user, install=True, upload=False)
+    ppl.Log.package_project(pkgpath, user, install=True, upload=True)
 
 
 if __name__ == "__main__":

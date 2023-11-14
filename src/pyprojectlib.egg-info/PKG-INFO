@@ -2,7 +2,7 @@ Metadata-Version: 2.1
 Name: pyprojectlib
 Version: 0.0.2
 Author-email: Jason Krist <jkrist2696@gmail.com>
-License: GNU GPLv3
+License: GPL-3.0-only
 Project-URL: Homepage, https://github.com/jkrist2696/pyprojectlib
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
@@ -11,7 +11,7 @@ Classifier: Operating System :: Unix
 Requires-Python: >=3.12.0
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
-Requires-Dist: cleandoc>=0.0.7
+Requires-Dist: cleandoc>=0.0.13
 Requires-Dist: GitPython>=3.1.40
 Requires-Dist: pipreqs>=0.4.13
 Requires-Dist: pytest>=7.4.3
@@ -35,10 +35,6 @@ Python package for managing local python projects and repositories
 pip install pyprojectlib
 ```
 
-## Description
-
-Long project description here.
-
 ## Usage
 
 ### Command Line Usage: "ppl"
@@ -53,7 +49,7 @@ positional arguments:
     *    push           Save your python project in a local repository
     *    pack           Package python project into a distributable module
 
-#### Command Line Usage: "ppl">"new"
+### Command Line Usage: "ppl">"new"
 
 usage: ppl new [-h] {repo,proj,user} ...
 
@@ -63,7 +59,7 @@ positional arguments:
     *     proj            Create a new empty project
     *     user            Add a new user to a local repository
 
-##### Command Line Usage: "ppl">"new">"repo"
+### Command Line Usage: "ppl">"new">"repo"
 
 usage: ppl new repo [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
 
@@ -75,14 +71,14 @@ options:
 *    -email EMAIL, -e EMAIL          Your email address
 *    -gituser GITUSER, -g GITUSER    Your username on Github
 
-##### Command Line Usage: "ppl">"new">"project"
+### Command Line Usage: "ppl">"new">"project"
 
 usage: ppl new proj [-h] projpath
 
 positional arguments:
 *    projpath    Path to python project. Directory name = project name.
 
-##### Command Line Usage: "ppl">"new">"user"
+### Command Line Usage: "ppl">"new">"user"
 
 usage: ppl new user [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
 
@@ -94,7 +90,7 @@ options:
 *    -email EMAIL, -e EMAIL          Your email address
 *    -gituser GITUSER, -g GITUSER    Your username on Github
 
-#### Command Line Usage: "ppl">"push"
+### Command Line Usage: "ppl">"push"
 usage: ppl push [-h] [-relpath RELPATH] [-noclean] [-nodoc] [-notest] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath projpath
 
 positional arguments:
@@ -111,7 +107,7 @@ options:
 *    -email EMAIL, -e EMAIL          Your email address
 *    -gituser GITUSER, -g GITUSER    Your username on Github
 
-#### Command Line Usage: "ppl">"pack"
+### Command Line Usage: "ppl">"pack"
 usage: ppl pack [-h] [-upload] [-install] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] projpath
 
 positional arguments:
@@ -205,7 +201,6 @@ if __name__ == "__main__":
 
 
 ```
-
 
 ## Read The Docs
 

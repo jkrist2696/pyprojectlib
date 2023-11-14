@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyprojectlib.helper &mdash; pyprojectlib 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyprojectlib
+          </a>
+              <div class="version">
+                0.0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyprojectlib.html">pyprojectlib package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyprojectlib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../pyprojectlib.html">pyprojectlib</a></li>
+      <li class="breadcrumb-item active">pyprojectlib.helper</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyprojectlib.helper</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;helpers&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">makedirs</span><span class="p">,</span> <span class="n">remove</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">run</span>
+
+
+<div class="viewcode-block" id="prompt_user">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.prompt_user">[docs]</a>
+<span class="k">def</span> <span class="nf">prompt_user</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prompt user for input if default is empty string</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    prompt : str</span>
+<span class="sd">        text prompt to display to user</span>
+<span class="sd">    default : str</span>
+<span class="sd">        value returned if it&#39;s length is &gt; 0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_dirs">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.create_dirs">[docs]</a>
+<span class="k">def</span> <span class="nf">create_dirs</span><span class="p">(</span><span class="n">srcpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dirdict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    srcpath : str</span>
+<span class="sd">        _description_</span>
+<span class="sd">    dirdict : dict[dict]</span>
+<span class="sd">        _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">subdirdict</span> <span class="ow">in</span> <span class="n">dirdict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">newsrcpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">)</span>
+        <span class="n">makedirs</span><span class="p">(</span><span class="n">newsrcpath</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subdirdict</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">create_dirs</span><span class="p">(</span><span class="n">newsrcpath</span><span class="p">,</span> <span class="n">subdirdict</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="remove_item">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.remove_item">[docs]</a>
+<span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="n">itempath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;remote item&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">itempath</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">itempath</span><span class="p">):</span>
+        <span class="n">rmtree</span><span class="p">(</span><span class="n">itempath</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">remove</span><span class="p">(</span><span class="n">itempath</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="run_capture_out">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.run_capture_out">[docs]</a>
+<span class="k">def</span> <span class="nf">run_capture_out</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run subprocess command and return the stdout and stderr.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cmd : list[str]</span>
+<span class="sd">        Pass list of shell commands to subprocess.run</span>
+<span class="sd">    shell : bool</span>
+<span class="sd">        Pass shell keyword argument to subprocess.run</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    stdout  : str</span>
+<span class="sd">        Standard Output returned from shell</span>
+<span class="sd">    stderr : str</span>
+<span class="sd">        Standard Error returned from shell</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span>
+        <span class="n">cmd</span><span class="p">,</span>
+        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">proc</span><span class="o">.</span><span class="n">stderr</span></div>
+
+
+
+<div class="viewcode-block" id="config_log">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.config_log">[docs]</a>
+<span class="k">def</span> <span class="nf">config_log</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">newfile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure log file using logging module</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file : str = &quot;&quot;</span>
+<span class="sd">        Path to logfile to write</span>
+<span class="sd">    newfile : bool = True</span>
+<span class="sd">        Set to false to not overwrite existing log file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    logger object</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">logname</span> <span class="o">=</span> <span class="s2">&quot;pyprojectlib&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">logname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">hasHandlers</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">logger</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> | </span><span class="si">%(name)s</span><span class="s2"> | </span><span class="si">%(levelname)s</span><span class="s2"> | </span><span class="si">%(message)s</span><span class="s2">&quot;</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%y | %H:%M:%S&quot;</span>
+    <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">newfile</span><span class="p">:</span>
+            <span class="n">remove</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">logname</span><span class="si">}</span><span class="s2"> logfile path: </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">dfs</span><span class="p">,</span> <span class="s2">&quot;%&quot;</span><span class="p">))</span>
+        <span class="n">file_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+    <span class="n">stdout_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>  <span class="c1"># stdout</span>
+    <span class="n">stdout_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">dfs</span><span class="p">,</span> <span class="s2">&quot;%&quot;</span><span class="p">))</span>
+    <span class="n">stdout_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">stdout_handler</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logger</span></div>
+
+
+
+<div class="viewcode-block" id="check_version_format">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.check_version_format">[docs]</a>
+<span class="k">def</span> <span class="nf">check_version_format</span><span class="p">(</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;check if version string abides by criteria&quot;&quot;&quot;</span>
+    <span class="n">versionsplit</span> <span class="o">=</span> <span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Version string must be in format X.Y.Z where X, Y, &quot;</span>
+        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;and Z are integers.</span><span class="se">\n</span><span class="s2">    version: </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">versionsplit</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">SyntaxError</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">splitnum</span> <span class="ow">in</span> <span class="n">versionsplit</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">splitnum</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SyntaxError</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span></div>
+
+
+
+<div class="viewcode-block" id="attrs_to_dict">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.helper.attrs_to_dict">[docs]</a>
+<span class="k">def</span> <span class="nf">attrs_to_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">namelist</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;create kwargs from list of arg names&quot;&quot;&quot;</span>
+    <span class="n">kwdict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">namelist</span><span class="p">:</span>
+        <span class="n">kwdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">kwdict</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, jkris.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

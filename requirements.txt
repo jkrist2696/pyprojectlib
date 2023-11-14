@@ -1,4 +1,4 @@
-cleandoc>=0.0.7
+cleandoc>=0.0.13
 GitPython>=3.1.40
 pipreqs>=0.4.13
 pytest>=7.4.3

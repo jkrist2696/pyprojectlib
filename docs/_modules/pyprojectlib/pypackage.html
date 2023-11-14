@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyprojectlib.pypackage &mdash; pyprojectlib 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyprojectlib
+          </a>
+              <div class="version">
+                0.0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyprojectlib.html">pyprojectlib package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyprojectlib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../pyprojectlib.html">pyprojectlib</a></li>
+      <li class="breadcrumb-item active">pyprojectlib.pypackage</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyprojectlib.pypackage</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pypackage</span>
+
+<span class="sd">Manual Build Steps:</span>
+<span class="sd">    python -m build</span>
+<span class="sd">    twine check dist/*</span>
+<span class="sd">    pip install .</span>
+<span class="sd">    twine upload dist/*</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">mkdir</span>
+<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">split</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
+<span class="kn">import</span> <span class="nn">pipreqs.pipreqs</span> <span class="k">as</span> <span class="nn">pr</span>  <span class="c1"># type: ignore # pylint: disable=E0401</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">CONS</span>  <span class="c1"># type: ignore # pylint: disable=E0611,E0401</span>
+<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">prompt_user</span><span class="p">,</span> <span class="n">run_capture_out</span>
+<span class="kn">from</span> <span class="nn">.pyuser</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">.pyproject</span> <span class="kn">import</span> <span class="n">Project</span>
+
+
+<div class="viewcode-block" id="Package">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package">[docs]</a>
+<span class="k">class</span> <span class="nc">Package</span><span class="p">(</span><span class="n">Project</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;package&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Package.__init__">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pkgpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;init&quot;&quot;&quot;</span>
+        <span class="c1"># , cli: str = &quot;&quot;</span>
+        <span class="c1"># self.remote = False</span>
+        <span class="c1"># example cli: {self.name} = &quot;{self.name}:{self.clifxn}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cli</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;cli&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pkgpath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;cli&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_description</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_dep_pkgs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span>
+                <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">VERSIONS_DIR</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">userconfig</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CONS</span><span class="o">.</span><span class="n">ENVPATH</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">USERS_DIR</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">userconfig</span><span class="p">):</span>
+            <span class="n">mkdir</span><span class="p">(</span><span class="n">userconfig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">get_config</span><span class="p">(</span><span class="n">userconfig</span><span class="p">)</span>
+        <span class="n">projconfig</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CONS</span><span class="o">.</span><span class="n">ENVPATH</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">PROJECTS_DIR</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">projconfig</span><span class="p">):</span>
+            <span class="n">mkdir</span><span class="p">(</span><span class="n">projconfig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_config</span><span class="p">(</span><span class="n">projconfig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">REQFILE</span><span class="p">,</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">READFILE</span><span class="p">,</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">TEST_DIR</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;src/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Package.get_dep_pkgs">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package.get_dep_pkgs">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_dep_pkgs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get dep pkgs&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_pipreqs</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_requirements</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_dep_dups</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_requirements</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Package.save_toml">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package.save_toml">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;save_toml&quot;&quot;&quot;</span>
+        <span class="n">depstr</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">&quot;&#39;</span> <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="p">])</span>
+        <span class="n">toml_str</span> <span class="o">=</span> <span class="n">CONS</span><span class="o">.</span><span class="n">TOMLSTR_START</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;name = &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;version = &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">author</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="s1">&#39;authors = [{ name = &quot;&#39;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">author</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, email = &quot;</span><span class="si">{</span><span class="n">author</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s1">&quot; </span><span class="se">}}</span><span class="s1">]</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;description = &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;requires-python = &quot;&gt;=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pyversion</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;dependencies = [</span><span class="si">{</span><span class="n">depstr</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1"># toml_str += &#39;[tool.setuptools.packages.find]\nwhere = [&quot;src&quot;]\n&#39;</span>
+        <span class="c1"># toml_str += f&#39;exclude = [&quot;*.__pycache__&quot;]\n&#39;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="s2">&quot;[tool.setuptools.package-data]</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = [&quot;*.typed&quot;, &quot;.template&quot;]</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># toml_str += &quot;[tool.setuptools.exclude-package-data]\n&quot;</span>
+        <span class="c1"># toml_str += f&#39;{self.name} = [&quot;__pycache__/*&quot;, &quot;__pycache__&quot;]\n&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">toml_str</span> <span class="o">+=</span> <span class="s2">&quot;[project.scripts]</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cli</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">author</span><span class="o">.</span><span class="n">gituser</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;[project.urls]</span><span class="se">\n</span><span class="s1">&quot;Homepage&quot; = &quot;</span><span class="si">{</span><span class="n">CONS</span><span class="o">.</span><span class="n">GITHUB</span><span class="si">}</span><span class="s1">/&#39;</span>
+            <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">author</span><span class="o">.</span><span class="n">gituser</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">tomlpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;pyproject.toml&quot;</span><span class="p">)</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Saving pyproject.toml: </span><span class="si">{</span><span class="n">tomlpath</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tomlpath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">toml_str</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Package.build">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package.build">[docs]</a>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">upload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">install</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;build&quot;&quot;&quot;</span>
+        <span class="n">eggpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.egg-info&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">eggpath</span><span class="p">):</span>
+            <span class="n">rmtree</span><span class="p">(</span><span class="n">eggpath</span><span class="p">)</span>
+        <span class="n">buildlog</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Building Package &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">checklog</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Checking Package &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">arglists</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">buildlog</span><span class="p">,</span> <span class="p">[</span><span class="n">CONS</span><span class="o">.</span><span class="n">PYEXE</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;build&quot;</span><span class="p">]),</span>
+            <span class="p">(</span><span class="n">checklog</span><span class="p">,</span> <span class="p">[</span><span class="n">CONS</span><span class="o">.</span><span class="n">TWINEEXE</span><span class="p">,</span> <span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="s2">&quot;dist/*&quot;</span><span class="p">]),</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">install</span><span class="p">:</span>
+            <span class="n">installlog</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Installing Package &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">arglists</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">installlog</span><span class="p">,</span> <span class="p">[</span><span class="n">CONS</span><span class="o">.</span><span class="n">PIPEXE</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">upload</span><span class="p">:</span>
+            <span class="n">uploadlog</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Uploading Package &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">arglists</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">uploadlog</span><span class="p">,</span> <span class="p">[</span><span class="n">CONS</span><span class="o">.</span><span class="n">TWINEEXE</span><span class="p">,</span> <span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="s2">&quot;dist/*&quot;</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">logstr</span><span class="p">,</span> <span class="n">arglist</span> <span class="ow">in</span> <span class="n">arglists</span><span class="p">:</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+            <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">run_capture_out</span><span class="p">(</span><span class="n">arglist</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;stdout from args: </span><span class="si">{</span><span class="n">arglist</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">stdout</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;stderr from args: </span><span class="si">{</span><span class="n">arglist</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ChildProcessError</span><span class="p">(</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">VERSIONS_DIR</span><span class="p">)):</span>
+            <span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">VERSIONS_DIR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Package._prompt">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package._prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;prompt&quot;&quot;&quot;</span>
+        <span class="c1"># Add remote? self. = prompt_user(&quot; &quot;, self.)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cli</span> <span class="o">=</span> <span class="n">prompt_user</span><span class="p">(</span><span class="s2">&quot;Command-Line Interface String: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cli</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cli</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span></div>
+
+
+<div class="viewcode-block" id="Package._check_required">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package._check_required">[docs]</a>
+    <span class="k">def</span> <span class="nf">_check_required</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;check&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Package._get_pipreqs">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package._get_pipreqs">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_pipreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Module Dependencies and their Versions with pipreqs&quot;&quot;&quot;</span>
+        <span class="n">srcpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">imports</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">get_all_imports</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">pkgnames</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">get_pkg_names</span><span class="p">(</span><span class="n">imports</span><span class="p">)</span>
+        <span class="n">pkgdicts_all</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">get_import_local</span><span class="p">(</span><span class="n">pkgnames</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">pkgdicts</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pkgdict_orig</span> <span class="ow">in</span> <span class="n">pkgdicts_all</span><span class="p">:</span>
+            <span class="n">pkgdicts_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">pkgdict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">pkgdict</span> <span class="ow">in</span> <span class="n">pkgdicts</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">pkgdict_orig</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pkgdicts_names</span><span class="p">:</span>
+                <span class="n">pkgdicts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pkgdict_orig</span><span class="p">)</span>
+        <span class="n">pkglist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pkgdict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&gt;=&quot;</span> <span class="o">+</span> <span class="n">pkgdict</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">pkgdict</span> <span class="ow">in</span> <span class="n">pkgdicts</span><span class="p">]</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;    pipreqs packages: </span><span class="si">{</span><span class="n">pkglist</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pkglist</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Package._get_requirements">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package._get_requirements">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dependencies from requirements.txt&quot;&quot;&quot;</span>
+        <span class="n">reqfile</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;requirements.txt&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reqfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reqreader</span><span class="p">:</span>
+            <span class="n">reqlines</span> <span class="o">=</span> <span class="n">reqreader</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">reqlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">reqlines</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;    requirements.txt packages: </span><span class="si">{</span><span class="n">reqlines</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">reqlines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Package._remove_dep_dups">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package._remove_dep_dups">[docs]</a>
+    <span class="k">def</span> <span class="nf">_remove_dep_dups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove duplicate packages&quot;&quot;&quot;</span>
+        <span class="n">new_dep_pkgs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">new_pkgnames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pkgstr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="p">:</span>
+            <span class="n">pkgsplit</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="s2">&quot;[~&lt;&gt;=]&quot;</span><span class="p">,</span> <span class="n">pkgstr</span><span class="p">)</span>
+            <span class="n">pkgname</span> <span class="o">=</span> <span class="n">pkgsplit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">skipappend</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">np</span><span class="p">,</span> <span class="n">new_pkgname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">new_pkgnames</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pkgname</span> <span class="o">!=</span> <span class="n">new_pkgname</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">skipappend</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pkgstr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_dep_pkgs</span><span class="p">[</span><span class="n">np</span><span class="p">]):</span>
+                    <span class="k">continue</span>
+                <span class="n">new_dep_pkgs</span><span class="p">[</span><span class="n">np</span><span class="p">]</span> <span class="o">=</span> <span class="n">pkgstr</span>
+            <span class="k">if</span> <span class="n">skipappend</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">new_dep_pkgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pkgstr</span><span class="p">)</span>
+            <span class="n">new_pkgnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pkgname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span> <span class="o">=</span> <span class="n">new_dep_pkgs</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;    dependent packages: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Package._save_requirements">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package._save_requirements">[docs]</a>
+    <span class="k">def</span> <span class="nf">_save_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;resave edited requirements.txt&quot;&quot;&quot;</span>
+        <span class="n">reqfile</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;requirements.txt&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reqfile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pkgstr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pkgstr</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># TOML EXTRAS BELOW:</span>
+<span class="c1"># keywords = [&quot;&quot;] add later?</span>
+<span class="c1"># &#39;Operating System :: POSIX&#39;,</span>
+<span class="c1"># &#39;Operating System :: MacOS&#39;,</span>
+<span class="c1"># [tool.setuptools] need anything here?</span>
+<span class="c1"># [tool.setuptools.packages.find]</span>
+<span class="c1"># where = [&quot;src&quot;]</span>
+<span class="c1"># I think below is covered automatically? I should test though</span>
+<span class="c1"># [&quot;pkg.assets&quot;]</span>
+<span class="c1"># pykwargs[&quot;package_data&quot;] = ({f&quot;{pkgname}&quot;: [&quot;assets/*&quot;]},)</span>
+<span class="c1"># pykwargs[&quot;include_package_data&quot;] = True</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, jkris.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,6 +1,5 @@
 """helpers"""
 from os import path, makedirs, remove
-from sys import stdout
 import logging
 from shutil import rmtree
 from typing import Any, Tuple
@@ -76,40 +75,48 @@ def run_capture_out(cmd: list[str], **kwargs) -> Tuple[str, str]:
     return proc.stdout, proc.stderr
 
 
-def config_log(file: str = "", level=logging.INFO):
+def config_log(file: str = "", newfile: bool = True):
     """Configure log file using logging module
 
     Parameters
     ----------
     file : str = ""
         Path to logfile to write
-    level
-        logging.level to pass to logger
+    newfile : bool = True
+        Set to false to not overwrite existing log file
 
     Returns
     -------
     logger object
 
     """
+
     logname = "pyprojectlib"
     logger = logging.getLogger(logname)
     if logger.hasHandlers():
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
         return logger
-    logging.basicConfig()  # level=logging.WARN
     fs = "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
     dfs = "%d-%m-%y | %H:%M:%S"
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(level=logging.DEBUG)
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logger.propagate = False
     if len(file) > 0:
-        if path.exists(file):
+        if path.exists(file) and newfile:
             remove(file)
         file_handler = logging.FileHandler(file)
-        print(f"logfile path: {path.realpath(file)}\n")
+        print(f"\n{logname} logfile path: {path.realpath(file)}\n")
         file_handler.setFormatter(logging.Formatter(fs, dfs, "%"))
+        file_handler.setLevel(logging.DEBUG)
         logger.addHandler(file_handler)
-    stdout_handler = logging.StreamHandler(stdout)
+    stdout_handler = logging.StreamHandler()  # stdout
     stdout_handler.setFormatter(logging.Formatter(fs, dfs, "%"))
+    stdout_handler.setLevel(logging.INFO)
     logger.addHandler(stdout_handler)
-    logger.propagate = False
-    logger.setLevel(level)
     return logger
 
 

@@ -10,6 +10,7 @@ Manual Build Steps:
 """
 from os import path, mkdir
 from re import split
+from shutil import rmtree
 import pipreqs.pipreqs as pr  # type: ignore # pylint: disable=E0401
 from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
 from .helper import prompt_user, run_capture_out
@@ -69,7 +70,12 @@ class Package(Project):
         toml_str += f'description = "{self.description}"\n'
         toml_str += f'requires-python = ">={self.pyversion}"\n'
         toml_str += f"dependencies = [{depstr}]\n"
-        # toml_str += f"[tool.setuptools]\npackage-data = {"sample" = ["*.dat"]}"
+        # toml_str += '[tool.setuptools.packages.find]\nwhere = ["src"]\n'
+        # toml_str += f'exclude = ["*.__pycache__"]\n'
+        toml_str += "[tool.setuptools.package-data]\n"
+        toml_str += f'{self.name} = ["*.typed", ".template"]\n'
+        # toml_str += "[tool.setuptools.exclude-package-data]\n"
+        # toml_str += f'{self.name} = ["__pycache__/*", "__pycache__"]\n'
         if len(self.cli.strip()) > 0:
             toml_str += "[project.scripts]\n"
             toml_str += f"{self.cli}\n"
@@ -84,17 +90,20 @@ class Package(Project):
 
     def build(self, upload=False, install=False):
         """build"""
-        buildlog = f'Building Package: "{self.name}"'
-        checklog = f'Checking Package: "{self.name}"'
+        eggpath = path.join(self.path, "src", f"{self.name}.egg-info")
+        if path.exists(eggpath):
+            rmtree(eggpath)
+        buildlog = f'Building Package "{self.name}" v{self.version}'
+        checklog = f'Checking Package "{self.name}" v{self.version}'
         arglists = [
             (buildlog, [CONS.PYEXE, "-m", "build"]),
             (checklog, [CONS.TWINEEXE, "check", "dist/*"]),
         ]
         if install:
-            installlog = f'Installing Package: "{self.name}"'
+            installlog = f'Installing Package "{self.name}" v{self.version}'
             arglists.append((installlog, [CONS.PIPEXE, "install", "."]))
         if upload:
-            uploadlog = f'Uploading Package: "{self.name}"'
+            uploadlog = f'Uploading Package "{self.name}" v{self.version}'
             arglists.append((uploadlog, [CONS.TWINEEXE, "upload", "dist/*"]))
         for logstr, arglist in arglists:
             CONS.log().info(logstr)
@@ -185,9 +194,6 @@ class Package(Project):
 # [tool.setuptools] need anything here?
 # [tool.setuptools.packages.find]
 # where = ["src"]
-# [build-system] this is default right?
-# requires = ["setuptools", "wheel"]
-# build-backend = "setuptools.build_meta"
 # I think below is covered automatically? I should test though
 # ["pkg.assets"]
 # pykwargs["package_data"] = ({f"{pkgname}": ["assets/*"]},)

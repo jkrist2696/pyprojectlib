@@ -5,6 +5,7 @@ src/pyprojectlib/__init__.py
 src/pyprojectlib/cli.py
 src/pyprojectlib/constants.py
 src/pyprojectlib/helper.py
+src/pyprojectlib/py.typed
 src/pyprojectlib/pypackage.py
 src/pyprojectlib/pyproject.py
 src/pyprojectlib/pyrepo.py

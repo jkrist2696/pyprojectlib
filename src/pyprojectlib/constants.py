@@ -32,8 +32,11 @@ PIPEXE = path.join(ENVPATH, "Scripts", "pip3")
 TWINEEXE = path.join(ENVPATH, "Scripts", "twine")
 
 TOMLSTR_START = """
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["**.__pycache__"]
 [build-system]
-requires = ["setuptools", "setuptools-scm", "wheel"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 [project]
 license = { text = "GPL-3.0-only" }

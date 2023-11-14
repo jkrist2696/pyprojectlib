@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyprojectlib.pyrepo &mdash; pyprojectlib 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyprojectlib
+          </a>
+              <div class="version">
+                0.0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyprojectlib.html">pyprojectlib package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyprojectlib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../pyprojectlib.html">pyprojectlib</a></li>
+      <li class="breadcrumb-item active">pyprojectlib.pyrepo</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyprojectlib.pyrepo</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Written by Jason Krist</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">listdir</span><span class="p">,</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">makedirs</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copytree</span><span class="p">,</span> <span class="n">copyfile</span>
+<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">findall</span>
+<span class="kn">from</span> <span class="nn">git</span> <span class="kn">import</span> <span class="n">Repo</span>
+<span class="kn">import</span> <span class="nn">pytest</span>  <span class="c1"># pylint: disable=E0401</span>
+<span class="kn">from</span> <span class="nn">cleandoc</span> <span class="kn">import</span> <span class="n">clean_all</span><span class="p">,</span> <span class="n">gen_docs</span>  <span class="c1"># type: ignore # pylint: disable=E0401</span>
+<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">remove_item</span><span class="p">,</span> <span class="n">prompt_user</span>
+<span class="kn">from</span> <span class="nn">.pyuser</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">.pyproject</span> <span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">from</span> <span class="nn">.pypackage</span> <span class="kn">import</span> <span class="n">Package</span>  <span class="c1"># type: ignore # pylint: disable=E0401,C0413,E0611</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">CONS</span>  <span class="c1"># type: ignore # pylint: disable=E0611,E0401</span>
+
+
+<div class="viewcode-block" id="Repository">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.Repository">[docs]</a>
+<span class="k">class</span> <span class="nc">Repository</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;local repo for saving code modules&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Repository.__init__">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.Repository.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repopath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;init&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">repopath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">repopath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectnames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">repopath</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">PROJECTS_DIR</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_projects</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">userpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">repopath</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">USERS_DIR</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">get_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">userpath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_owner</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Repository.push">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.Repository.push">[docs]</a>
+    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;add project&quot;&quot;&quot;</span>
+        <span class="n">relpath</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;relpath&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">RepoProject</span><span class="p">(</span><span class="n">projpath</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">relpath</span><span class="o">=</span><span class="n">relpath</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Pushing Project &quot;</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; to Repo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">project</span></div>
+
+
+<div class="viewcode-block" id="Repository.pull">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.Repository.pull">[docs]</a>
+    <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pkgname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get project version&quot;&quot;&quot;</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;PULL FUNCTION NOT CREATED YET </span><span class="si">{</span><span class="n">pkgname</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Repository.get_owner">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.Repository.get_owner">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_owner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get&quot;&quot;&quot;</span>
+        <span class="n">ownpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;owner&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ownpath</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">save_config</span><span class="p">(</span><span class="n">ownpath</span><span class="p">)</span>
+        <span class="n">owner</span> <span class="o">=</span> <span class="n">User</span><span class="p">()</span>
+        <span class="n">owner</span><span class="o">.</span><span class="n">load_config</span><span class="p">(</span><span class="n">ownpath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">owner</span></div>
+
+
+<div class="viewcode-block" id="Repository._get_projects">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.Repository._get_projects">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get projects in repo&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projectnames</span> <span class="o">=</span> <span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projpath</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RepoProject">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject">[docs]</a>
+<span class="k">class</span> <span class="nc">RepoProject</span><span class="p">(</span><span class="n">Project</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;repoproject&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RepoProject.__init__">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pkgpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="n">Repository</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;init&quot;&quot;&quot;</span>
+        <span class="n">relpath</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;relpath&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pkgpath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;relpath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="o">=</span> <span class="n">repo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_args</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relpath</span> <span class="o">=</span> <span class="n">relpath</span>
+        <span class="c1"># self.get_config(self.repo.projpath)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">relpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">versiondir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">VERSIONS_DIR</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versiondir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">versionpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versiondir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="p">[</span><span class="n">CONS</span><span class="o">.</span><span class="n">REQFILE</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">READFILE</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">TEST_DIR</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;src/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="RepoProject.update">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">git</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;check code quality, then copy over new version&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_required</span><span class="p">()</span>
+        <span class="n">srcpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
+            <span class="n">logstr</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Repo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; Project &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; - &#39;</span>
+                <span class="o">+</span> <span class="s2">&quot;checking all source files for cleanliness&quot;</span>
+            <span class="p">)</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+            <span class="n">clean_all</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">write</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>  <span class="c1"># Make sure this exits if there are errors!</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">)):</span>
+                <span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">user</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+                <span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;User &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s1">&quot; does not own the repository, &#39;</span>
+                    <span class="o">+</span> <span class="s2">&quot;so you cannot create new sub-directories. &quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;You can ask the owner &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s1">&quot; &#39;</span>
+                    <span class="o">+</span> <span class="s2">&quot;nicely to create the sub-directory for you.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">projpath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">user</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">editors</span><span class="p">:</span>
+            <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Your username is not in list of editors for project:&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    project : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    username: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    editors : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">editors</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_last_version</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versiondir</span><span class="p">):</span>
+            <span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versiondir</span><span class="p">)</span>
+        <span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versionpath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_copy_and_backup</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="n">logstr</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Repo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; Project &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; - &#39;</span>
+                <span class="o">+</span> <span class="s2">&quot;creating documentation for latest version&quot;</span>
+            <span class="p">)</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+            <span class="n">reposrcpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">gen_docs</span><span class="p">(</span><span class="n">reposrcpath</span><span class="p">,</span> <span class="n">release</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">git</span><span class="p">:</span>
+            <span class="n">logstr</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Repo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; Project &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; - &#39;</span>
+                <span class="o">+</span> <span class="s2">&quot;updating git repo&quot;</span>
+            <span class="p">)</span>
+            <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="s2">&quot;.git&quot;</span><span class="p">)):</span>
+                <span class="n">git_repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">)</span>
+            <span class="n">git_repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">)</span>
+            <span class="n">git_repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;**&quot;</span><span class="p">)</span>
+            <span class="n">git_repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+            <span class="n">git_repo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Repo &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; Project &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; &#39;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;update to version &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">&quot; has completed&#39;</span>
+        <span class="p">)</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RepoProject.package">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject.package">[docs]</a>
+    <span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;build project into package&quot;&quot;&quot;</span>
+        <span class="n">upload</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">install</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">pkg</span> <span class="o">=</span> <span class="n">Package</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">pkg</span><span class="o">.</span><span class="n">save_toml</span><span class="p">()</span>
+        <span class="n">pkg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">upload</span><span class="o">=</span><span class="n">upload</span><span class="p">,</span> <span class="n">install</span><span class="o">=</span><span class="n">install</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RepoProject._prompt">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject._prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;prompt&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relpath</span> <span class="o">=</span> <span class="n">prompt_user</span><span class="p">(</span><span class="s2">&quot;Relative Path in Repo: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">relpath</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RepoProject._check_args">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject._check_args">[docs]</a>
+    <span class="k">def</span> <span class="nf">_check_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;check args&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^_a-z]&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">SyntaxWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Project Folder name must contain only&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot; lowercase letters or underscores. Directory Name: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Source Path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="se">\n</span><span class="s2">Repo Path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span>
+                <span class="s2">&quot;Source path and repo path overlap! This would result in a recursive copy tree.&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RepoProject._check_required">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject._check_required">[docs]</a>
+    <span class="k">def</span> <span class="nf">_check_required</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;check&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="RepoProject._remove_last_version">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject._remove_last_version">[docs]</a>
+    <span class="k">def</span> <span class="nf">_remove_last_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove old files&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+            <span class="n">remove_item</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="RepoProject._copy_and_backup">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject._copy_and_backup">[docs]</a>
+    <span class="k">def</span> <span class="nf">_copy_and_backup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;copy backup&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+            <span class="n">srcpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+            <span class="n">repopath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+            <span class="n">backuppath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">versionpath</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">srcpath</span><span class="p">):</span>
+                <span class="n">copytree</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">repopath</span><span class="p">)</span>
+                <span class="n">copytree</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">backuppath</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">srcpath</span><span class="p">):</span>
+                <span class="n">copyfile</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">repopath</span><span class="p">)</span>
+                <span class="n">copyfile</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">backuppath</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">srcpath</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, jkris.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

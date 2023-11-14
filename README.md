@@ -11,10 +11,6 @@ Python package for managing local python projects and repositories
 pip install pyprojectlib
 ```
 
-## Description
-
-Long project description here.
-
 ## Usage
 
 ### Command Line Usage: "ppl"
@@ -24,82 +20,83 @@ usage: ppl [-h] {new,push,pack} ...
 Package for managing local python projects and repositories
 
 positional arguments:
-*  {new,push,pack}  Command to execute (options below)
-    *    new            Create a new repo, project, or user of a repo
-    *    push           Save your python project in a local repository
-    *    pack           Package python project into a distributable module
+* {new,push,pack}  Command to execute (options below)
+    * new            Create a new repo, project, or user of a repo
+    * push           Save your python project in a local repository
+    * pack           Package python project into a distributable module
 
-#### Command Line Usage: "ppl">"new"
+### Command Line Usage: "ppl">"new"
 
 usage: ppl new [-h] {repo,proj,user} ...
 
 positional arguments:
-*    {repo,proj,user}  Create something (options below)
-    *     repo            Create a new empty repository
-    *     proj            Create a new empty project
-    *     user            Add a new user to a local repository
 
-##### Command Line Usage: "ppl">"new">"repo"
+* {repo,proj,user}  Create something (options below)
+    * repo            Create a new empty repository
+    * proj            Create a new empty project
+    * user            Add a new user to a local repository
+
+### Command Line Usage: "ppl">"new">"repo"
 
 usage: ppl new repo [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
 
 positional arguments:
-*    repopath    Path to local python repository. Directory name = repo name.
+* repopath    Path to local python repository. Directory name = repo name.
 
 options:
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
-##### Command Line Usage: "ppl">"new">"project"
+### Command Line Usage: "ppl">"new">"project"
 
 usage: ppl new proj [-h] projpath
 
 positional arguments:
-*    projpath    Path to python project. Directory name = project name.
+* projpath    Path to python project. Directory name = project name.
 
-##### Command Line Usage: "ppl">"new">"user"
+### Command Line Usage: "ppl">"new">"user"
 
 usage: ppl new user [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
 
 positional arguments:
-*    repopath              Path to local python repository. Directory name = repo name.
+* repopath              Path to local python repository. Directory name = repo name.
 
 options:
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
-#### Command Line Usage: "ppl">"push"
+### Command Line Usage: "ppl">"push"
 usage: ppl push [-h] [-relpath RELPATH] [-noclean] [-nodoc] [-notest] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath projpath
 
 positional arguments:
-*    repopath              Path to local python repository. Directory name = repo name.
-*    projpath              Path to python project. Directory name = project name.
+* repopath              Path to local python repository. Directory name = repo name.
+* projpath              Path to python project. Directory name = project name.
 
 options:
-*    -relpath RELPATH, -r RELPATH    Relative path from repository basedir to add project
-*    -noclean, -nc                   Flag to prevent checking py files for cleanliness
-*    -nodoc, -nd                     Flag to prevent html documentation creation
-*    -notest, -nt                    Flag to prevent pytest from running
-*    -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -relpath RELPATH, -r RELPATH    Relative path from repository basedir to add project
+* -noclean, -nc                   Flag to prevent checking py files for cleanliness
+* -nodoc, -nd                     Flag to prevent html documentation creation
+* -notest, -nt                    Flag to prevent pytest from running
+* -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
-#### Command Line Usage: "ppl">"pack"
+### Command Line Usage: "ppl">"pack"
 usage: ppl pack [-h] [-upload] [-install] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] projpath
 
 positional arguments:
-*    projpath              Path to python project. Directory name = project name.
+* projpath              Path to python project. Directory name = project name.
 
 options:
-*    -upload, -u                     Flag to upload python module to PYPI after packaging it
-*    -install, -i                    Flag to install python module after packaging it
-*    -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -upload, -u                     Flag to upload python module to PYPI after packaging it
+* -install, -i                    Flag to install python module after packaging it
+* -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
 ### Python In-Line Usage
 
@@ -181,7 +178,6 @@ if __name__ == "__main__":
 
 
 ```
-
 
 ## Read The Docs
 

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyprojectlib.cli &mdash; pyprojectlib 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyprojectlib
+          </a>
+              <div class="version">
+                0.0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyprojectlib.html">pyprojectlib package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyprojectlib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../pyprojectlib.html">pyprojectlib</a></li>
+      <li class="breadcrumb-item active">pyprojectlib.cli</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyprojectlib.cli</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Written by Jason Krist</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
+
+<span class="c1"># CLI variable and command names</span>
+<span class="n">PROG</span> <span class="o">=</span> <span class="s2">&quot;ppl&quot;</span>
+<span class="n">CMDNAME</span> <span class="o">=</span> <span class="s2">&quot;command&quot;</span>
+<span class="n">NEWNAME</span> <span class="o">=</span> <span class="s2">&quot;new&quot;</span>
+<span class="n">PUSHNAME</span> <span class="o">=</span> <span class="s2">&quot;push&quot;</span>
+<span class="n">PACKNAME</span> <span class="o">=</span> <span class="s2">&quot;pack&quot;</span>
+<span class="n">REPONAME</span> <span class="o">=</span> <span class="s2">&quot;repo&quot;</span>
+<span class="n">PROJNAME</span> <span class="o">=</span> <span class="s2">&quot;proj&quot;</span>
+<span class="n">USERNAME</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span>
+<span class="n">REPOPATHNAME</span> <span class="o">=</span> <span class="s2">&quot;repopath&quot;</span>
+<span class="n">PROJPATHNAME</span> <span class="o">=</span> <span class="s2">&quot;projpath&quot;</span>
+<span class="n">NAMENAME</span> <span class="o">=</span> <span class="s2">&quot;name&quot;</span>
+<span class="n">EMNAME</span> <span class="o">=</span> <span class="s2">&quot;email&quot;</span>
+<span class="n">GUNAME</span> <span class="o">=</span> <span class="s2">&quot;gituser&quot;</span>
+<span class="n">RELNAME</span> <span class="o">=</span> <span class="s2">&quot;relpath&quot;</span>
+<span class="n">NCNAME</span> <span class="o">=</span> <span class="s2">&quot;noclean&quot;</span>
+<span class="n">NDNAME</span> <span class="o">=</span> <span class="s2">&quot;nodoc&quot;</span>
+<span class="n">NTNAME</span> <span class="o">=</span> <span class="s2">&quot;notest&quot;</span>
+<span class="n">VERNAME</span> <span class="o">=</span> <span class="s2">&quot;version&quot;</span>
+<span class="n">UPNAME</span> <span class="o">=</span> <span class="s2">&quot;upload&quot;</span>
+<span class="n">INNAME</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
+
+<span class="c1"># Helper strings for Command Line Arguments</span>
+<span class="n">DESC_H</span> <span class="o">=</span> <span class="s2">&quot;Package for managing local python projects and repositories&quot;</span>
+<span class="n">COMMAND_H</span> <span class="o">=</span> <span class="s2">&quot;Command to execute (options below)&quot;</span>
+<span class="n">NEW_H</span> <span class="o">=</span> <span class="s2">&quot;Create a new repo, project, or user of a repo&quot;</span>
+<span class="n">NEW_OPTS_H</span> <span class="o">=</span> <span class="s2">&quot;Create something (options below)&quot;</span>
+<span class="n">PUSH_H</span> <span class="o">=</span> <span class="s2">&quot;Save your python project in a local repository&quot;</span>
+<span class="n">PACK_H</span> <span class="o">=</span> <span class="s2">&quot;Package python project into a distributable module&quot;</span>
+<span class="n">REPO_H</span> <span class="o">=</span> <span class="s2">&quot;Create a new empty repository&quot;</span>
+<span class="n">PROJ_H</span> <span class="o">=</span> <span class="s2">&quot;Create a new empty project&quot;</span>
+<span class="n">USER_H</span> <span class="o">=</span> <span class="s2">&quot;Add a new user to a local repository&quot;</span>
+<span class="n">REPOPATH_H</span> <span class="o">=</span> <span class="s2">&quot;Path to local python repository. Directory name = repo name.&quot;</span>
+<span class="n">PROJPATH_H</span> <span class="o">=</span> <span class="s2">&quot;Path to python project. Directory name = project name.&quot;</span>
+<span class="n">VERSION_H</span> <span class="o">=</span> <span class="s2">&quot;Version number of python project (X.Y.Z)&quot;</span>
+<span class="n">INSTALL_H</span> <span class="o">=</span> <span class="s2">&quot;Flag to install python module after packaging it&quot;</span>
+<span class="n">UPLOAD_H</span> <span class="o">=</span> <span class="s2">&quot;Flag to upload python module to PYPI after packaging it&quot;</span>
+<span class="n">RELPATH_H</span> <span class="o">=</span> <span class="s2">&quot;Relative path from repository basedir to add project&quot;</span>
+<span class="n">NOCLEAN_H</span> <span class="o">=</span> <span class="s2">&quot;Flag to prevent checking py files for cleanliness&quot;</span>
+<span class="n">NODOC_H</span> <span class="o">=</span> <span class="s2">&quot;Flag to prevent html documentation creation&quot;</span>
+<span class="n">NOTEST_H</span> <span class="o">=</span> <span class="s2">&quot;Flag to prevent pytest from running&quot;</span>
+<span class="n">NAME_H</span> <span class="o">=</span> <span class="s2">&quot;Your full name&quot;</span>
+<span class="n">EMAIL_H</span> <span class="o">=</span> <span class="s2">&quot;Your email address&quot;</span>
+<span class="n">GITU_H</span> <span class="o">=</span> <span class="s2">&quot;Your username on Github&quot;</span>
+
+
+<div class="viewcode-block" id="create_parser">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.cli.create_parser">[docs]</a>
+<span class="k">def</span> <span class="nf">create_parser</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;create parser object&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="cli_parse">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.cli.cli_parse">[docs]</a>
+<span class="k">def</span> <span class="nf">cli_parse</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run command line parsing&quot;&quot;&quot;</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">PROG</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">DESC_H</span><span class="p">)</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="n">CMDNAME</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">COMMAND_H</span><span class="p">)</span>
+    <span class="n">new_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">NEWNAME</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NEW_H</span><span class="p">)</span>
+    <span class="n">new_subparsers</span> <span class="o">=</span> <span class="n">new_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="n">NEWNAME</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NEW_OPTS_H</span><span class="p">)</span>
+
+    <span class="n">newrepo_parser</span> <span class="o">=</span> <span class="n">new_subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">REPONAME</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">REPO_H</span><span class="p">)</span>
+    <span class="n">newrepo_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">REPOPATHNAME</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">REPOPATH_H</span><span class="p">)</span>
+
+    <span class="n">newproj_parser</span> <span class="o">=</span> <span class="n">new_subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">PROJNAME</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PROJ_H</span><span class="p">)</span>
+    <span class="n">newproj_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">PROJPATHNAME</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PROJPATH_H</span><span class="p">)</span>
+
+    <span class="n">newuser_parser</span> <span class="o">=</span> <span class="n">new_subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">USERNAME</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">USER_H</span><span class="p">)</span>
+    <span class="n">newuser_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">REPOPATHNAME</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">REPOPATH_H</span><span class="p">)</span>
+    <span class="n">newuser_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NAMENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NAME_H</span><span class="p">)</span>
+    <span class="n">newuser_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">EMNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">EMAIL_H</span><span class="p">)</span>
+    <span class="n">newuser_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">GUNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">GITU_H</span><span class="p">)</span>
+
+    <span class="n">push_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PUSH_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">REPOPATHNAME</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">REPOPATH_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">PROJPATHNAME</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PROJPATH_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">RELNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">RELPATH_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NCNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-nc&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NOCLEAN_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NDNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-nd&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NODOC_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NTNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-nt&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NOTEST_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">VERNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">VERSION_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NAMENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NAME_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">EMNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">EMAIL_H</span><span class="p">)</span>
+    <span class="n">push_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">GUNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">GITU_H</span><span class="p">)</span>
+
+    <span class="n">pack_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;pack&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PACK_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">PROJPATHNAME</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PROJPATH_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">UPNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">UPLOAD_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">INNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">INSTALL_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">VERNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">VERSION_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NAMENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NAME_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">EMNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">EMAIL_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">GUNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">GITU_H</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">argitems</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="n">args_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">argitems</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Command Line Args:</span><span class="se">\n</span><span class="s2">    </span><span class="si">{</span><span class="n">args_str</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">helpdict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">CMDNAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">NEWNAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">NEWNAME</span> <span class="o">+</span> <span class="n">REPONAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">newrepo_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">NEWNAME</span> <span class="o">+</span> <span class="n">PROJNAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">newproj_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">NEWNAME</span> <span class="o">+</span> <span class="n">USERNAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">newuser_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">PUSHNAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">push_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+    <span class="n">helpdict</span><span class="p">[</span><span class="n">PACKNAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">pack_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">helpdict</span></div>
+
+
+
+<div class="viewcode-block" id="print_all_help">
+<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.cli.print_all_help">[docs]</a>
+<span class="k">def</span> <span class="nf">print_all_help</span><span class="p">(</span><span class="n">helpdict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;print all strings in dictionary&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">helpdict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">_args</span><span class="p">,</span> <span class="n">helper</span> <span class="o">=</span> <span class="n">cli_parse</span><span class="p">()</span>
+    <span class="n">print_all_help</span><span class="p">(</span><span class="n">helper</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, jkris.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

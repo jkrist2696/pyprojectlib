@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="English" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyprojectlib &mdash; pyprojectlib 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyprojectlib
+          </a>
+              <div class="version">
+                0.0.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyprojectlib.html">pyprojectlib package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyprojectlib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyprojectlib</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyprojectlib</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Written by Jason Krist</span>
+
+<span class="sd"># to do list:</span>
+<span class="sd"># check if config has changed and re-save it???</span>
+<span class="sd"># Add better options for outputting logfile or not</span>
+<span class="sd"># remote git pushing</span>
+<span class="sd"># pull packages from local repo</span>
+<span class="sd"># ADD VALIDATION FOR EMAIL AND VERSION?</span>
+<span class="sd"># (LOW) update my docstrings</span>
+<span class="sd"># DO SOME TESTING: WSL linux, test editors list, project exists, etc.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+<span class="kn">from</span> <span class="nn">git</span> <span class="kn">import</span> <span class="n">Repo</span>
+<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">config_log</span><span class="p">,</span> <span class="n">attrs_to_dict</span><span class="p">,</span> <span class="n">create_dirs</span>
+<span class="kn">from</span> <span class="nn">.pyuser</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">.pypackage</span> <span class="kn">import</span> <span class="n">Package</span>  <span class="c1"># type: ignore # pylint: disable=E0401,C0413,E0611</span>
+<span class="kn">from</span> <span class="nn">.pyrepo</span> <span class="kn">import</span> <span class="n">Repository</span>  <span class="c1"># type: ignore # pylint: disable=E0401,C0413,E0611</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">CONS</span>  <span class="c1"># type: ignore # pylint: disable=E0611,E0401</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cli</span>
+
+
+<div class="viewcode-block" id="init_project">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.init_project">[docs]</a>
+<span class="k">def</span> <span class="nf">init_project</span><span class="p">(</span><span class="n">dirpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;wrapper for _init_project_dir&quot;&quot;&quot;</span>
+    <span class="n">dirpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="n">errstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">New Project cannot be created because directory already exists:</span><span class="se">\n</span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+    <span class="n">dirdict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">SRC_DIR</span><span class="p">:</span> <span class="p">{</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span> <span class="p">{}},</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">DOCS_DIR</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">TEST_DIR</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;examples&quot;</span><span class="p">:</span> <span class="p">{}},</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">VERSIONS_DIR</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
+    <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Creating Empty Project: </span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+    <span class="n">create_dirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">dirdict</span><span class="p">)</span>
+    <span class="c1"># Initialize git repo</span>
+    <span class="n">git_repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+    <span class="n">git_repo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="c1"># Create .gitignore file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s2">&quot;.gitignore&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">CONS</span><span class="o">.</span><span class="n">IGNORELIST</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Create empty requirements.txt</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">REQFILE</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="c1"># create example readme and license</span>
+    <span class="n">scriptpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+    <span class="n">newreadme</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">READFILE</span><span class="p">)</span>
+    <span class="n">basereadme</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">scriptpath</span><span class="p">,</span> <span class="s2">&quot;README.template&quot;</span><span class="p">)</span>
+    <span class="n">copyfile</span><span class="p">(</span><span class="n">basereadme</span><span class="p">,</span> <span class="n">newreadme</span><span class="p">)</span>
+    <span class="n">newlicense</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">CONS</span><span class="o">.</span><span class="n">LICFILE</span><span class="p">)</span>
+    <span class="n">baselicense</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">scriptpath</span><span class="p">,</span> <span class="s2">&quot;LICENSE.template&quot;</span><span class="p">)</span>
+    <span class="n">copyfile</span><span class="p">(</span><span class="n">baselicense</span><span class="p">,</span> <span class="n">newlicense</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="init_repo">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.init_repo">[docs]</a>
+<span class="k">def</span> <span class="nf">init_repo</span><span class="p">(</span><span class="n">dirpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;wrapper for _init_repo_dir&quot;&quot;&quot;</span>
+    <span class="n">dirpath</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="n">errstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;New Repo cannot be created because directory already exists:</span><span class="se">\n</span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+    <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Creating Empty Repository: </span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
+    <span class="n">dirdict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">USERS_DIR</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="n">CONS</span><span class="o">.</span><span class="n">PROJECTS_DIR</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
+    <span class="n">create_dirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">dirdict</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">Repository</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="init_user">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.init_user">[docs]</a>
+<span class="k">def</span> <span class="nf">init_user</span><span class="p">(</span><span class="n">repopath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add a new user to the repo and save their config&quot;&quot;&quot;</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="c1"># maybe check if repo exists here?</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">Repository</span><span class="p">(</span><span class="n">repopath</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Added user &quot;</span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s1">&quot; to Repo: </span><span class="si">{</span><span class="n">repopath</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="push_to_repo">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.push_to_repo">[docs]</a>
+<span class="k">def</span> <span class="nf">push_to_repo</span><span class="p">(</span><span class="n">repopath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">projpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;push new project version to existing repo&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">gituser</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;gituser&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">gituser</span><span class="o">=</span><span class="n">gituser</span><span class="p">)</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">Repository</span><span class="p">(</span><span class="n">repopath</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">relpath</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;relpath&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">projpath</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span> <span class="n">relpath</span><span class="o">=</span><span class="n">relpath</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="package_project">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.package_project">[docs]</a>
+<span class="k">def</span> <span class="nf">package_project</span><span class="p">(</span><span class="n">pkgpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;wrapper for _package_project&quot;&quot;&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">config_log</span><span class="p">()</span>
+    <span class="n">upload</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">install</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">pkg</span> <span class="o">=</span> <span class="n">Package</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">pkgpath</span><span class="p">),</span> <span class="n">user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">pkg</span><span class="o">.</span><span class="n">save_toml</span><span class="p">()</span>
+    <span class="n">pkg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">upload</span><span class="o">=</span><span class="n">upload</span><span class="p">,</span> <span class="n">install</span><span class="o">=</span><span class="n">install</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+        <span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pkg</span></div>
+
+
+
+<div class="viewcode-block" id="cli_main">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.cli_main">[docs]</a>
+<span class="k">def</span> <span class="nf">cli_main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;run main cli function&quot;&quot;&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">config_log</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CONS</span><span class="o">.</span><span class="n">NAME</span><span class="si">}</span><span class="s2">_log.txt&quot;</span><span class="p">)</span>  <span class="c1"># , level=logging.INFO</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">helpdict</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">cli_parse</span><span class="p">()</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">CMDNAME</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">helpdict</span><span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">CMDNAME</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">cli</span><span class="o">.</span><span class="n">NEWNAME</span><span class="p">:</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">NEWNAME</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">helpdict</span><span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">NEWNAME</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="o">==</span> <span class="n">cli</span><span class="o">.</span><span class="n">REPONAME</span><span class="p">:</span>
+            <span class="n">userargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">NAMENAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">EMNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">GUNAME</span><span class="p">])</span>
+            <span class="n">init_repo</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">REPOPATHNAME</span><span class="p">),</span> <span class="o">**</span><span class="n">userargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="o">==</span> <span class="n">cli</span><span class="o">.</span><span class="n">PROJNAME</span><span class="p">:</span>
+            <span class="n">init_project</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">PROJPATHNAME</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">new</span> <span class="o">==</span> <span class="n">cli</span><span class="o">.</span><span class="n">USERNAME</span><span class="p">:</span>
+            <span class="n">repopath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">REPOPATHNAME</span><span class="p">)</span>
+            <span class="n">userargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">NAMENAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">EMNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">GUNAME</span><span class="p">])</span>
+            <span class="n">init_user</span><span class="p">(</span><span class="n">repopath</span><span class="p">,</span> <span class="o">**</span><span class="n">userargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">cli</span><span class="o">.</span><span class="n">PUSHNAME</span><span class="p">:</span>
+        <span class="n">repopath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">REPOPATHNAME</span><span class="p">)</span>
+        <span class="n">projpath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">PROJPATHNAME</span><span class="p">)</span>
+        <span class="n">kwnames</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">RELNAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">NCNAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">NDNAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">NTNAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">VERNAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">NAMENAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">EMNAME</span><span class="p">,</span>
+            <span class="n">cli</span><span class="o">.</span><span class="n">GUNAME</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwnames</span><span class="p">)</span>
+        <span class="n">push_to_repo</span><span class="p">(</span><span class="n">repopath</span><span class="p">,</span> <span class="n">projpath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">cli</span><span class="o">.</span><span class="n">PACKNAME</span><span class="p">:</span>
+        <span class="n">projpath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">PROJPATHNAME</span><span class="p">)</span>
+        <span class="n">userargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">NAMENAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">EMNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">GUNAME</span><span class="p">])</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="o">**</span><span class="n">userargs</span><span class="p">)</span>
+        <span class="n">kwnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">VERNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">UPNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">INNAME</span><span class="p">]</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwnames</span><span class="p">)</span>
+        <span class="n">package_project</span><span class="p">(</span><span class="n">projpath</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+        <span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="add_log">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.add_log">[docs]</a>
+<span class="k">def</span> <span class="nf">add_log</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add loggin wrapper to function&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">log_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;log wrapper function&quot;&quot;&quot;</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">config_log</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CONS</span><span class="o">.</span><span class="n">NAME</span><span class="si">}</span><span class="s2">_log.txt&quot;</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">log_wrapper</span></div>
+
+
+
+<div class="viewcode-block" id="Log">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.Log">[docs]</a>
+<span class="k">class</span> <span class="nc">Log</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0903</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add logging to functions&quot;&quot;&quot;</span>
+
+    <span class="n">init_project</span> <span class="o">=</span> <span class="n">add_log</span><span class="p">(</span><span class="n">init_project</span><span class="p">)</span>
+    <span class="n">init_repo</span> <span class="o">=</span> <span class="n">add_log</span><span class="p">(</span><span class="n">init_repo</span><span class="p">)</span>
+    <span class="n">init_user</span> <span class="o">=</span> <span class="n">add_log</span><span class="p">(</span><span class="n">init_user</span><span class="p">)</span>
+    <span class="n">push_to_repo</span> <span class="o">=</span> <span class="n">add_log</span><span class="p">(</span><span class="n">push_to_repo</span><span class="p">)</span>
+    <span class="n">package_project</span> <span class="o">=</span> <span class="n">add_log</span><span class="p">(</span><span class="n">package_project</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, jkris.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
