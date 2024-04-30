@@ -1,0 +1,30 @@
+[project]
+name = "{pkgname}"
+version = "{version}"
+authors = [{ name = "{name}", email = "{email}" }]
+description = "{desc}"
+# keywords = [""] add later?
+license = { file = "LICENSE.txt" }
+readme = "README.md"
+requires-python = "{pyversion}"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "OSI Approved :: GNU General Public License v3 (GPLv3)",
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: Unix',
+]
+# 'Operating System :: POSIX',
+# 'Operating System :: MacOS',
+dependencies = [{dep_str}]
+
+[project.scripts]
+{pkgname} = "{pkgname}:{cli_function}"
+
+[project.urls]
+"Homepage" = "https://github.com/profile/pkgname"
+
+#[tool.setuptools] need anything here?
+
+#[build-system] this is default right?
+#requires = ["setuptools", "wheel"]
+#build-backend = "setuptools.build_meta"

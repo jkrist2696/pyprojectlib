@@ -1,0 +1,7 @@
+cleandoc>=0.0.5
+PyYAML
+types-PyYAML
+GitPython
+pytest
+pipreqs
+

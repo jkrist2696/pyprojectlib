@@ -1,0 +1,72 @@
+# -*- coding: utf-8 -*-
+"""
+Example setup.py file for packaging python modules
+
+# SETUP PROCESS BELOW
+# python setup.py bdist_wheel sdist
+# twine check dist/*
+# pip3 install .
+"""
+
+from os import path
+from pprint import pprint
+from typing import Any, Dict
+from setuptools import find_packages, setup
+from pipreqs.pipreqs import get_all_imports, get_pkg_names, get_import_local
+
+keyargs: Dict[str, Any] = {}
+
+# Find Package Name
+setupdir = path.split(path.realpath(__file__))[0]
+pkgname = path.split(setupdir)[1]
+keyargs["name"] = pkgname
+print(f"\npkgname: {pkgname}")
+
+# START USER PARAMETERS
+# kwargs["version"] = ""
+# kwargs["author"] = ""
+# kwargs["author_email"] = ""
+# kwargs["description"] = ""
+# kwargs["python_requires"] = ">=3.9"
+keyargs["install_requires"] = []
+# kwargs["install_requires"] = ["black>=23.3.0", "Sphinx>=6.2.1", "doq>=0.9.1", "m2r2"]
+# kwargs["entry_points"] = {"console_scripts": [f"{pkgname}={pkgname}:{"cli_fxn_here"}"]}
+# END USER PARAMETERS
+
+keyargs["packages"] = []  # ["pkg.assets"]
+# kwargs["package_data"] = ({f"{pkgname}": ["assets/*"]},)
+# kwargs["include_package_data"] = True
+
+with open("README.md", "r", encoding="utf-8") as readme:
+    readme_text = readme.read()
+
+# Get Module Dependencies and their Versions if missed by user
+imports = get_all_imports(f"./src/{pkgname}", encoding="utf-8")
+pkgnames = get_pkg_names(imports)
+pkgdicts_all = get_import_local(pkgnames, encoding="utf-8")
+pkgdicts: list[Any] = []
+for pkgdict_orig in pkgdicts_all:
+    pkgdicts_names = [pkgdict["name"] for pkgdict in pkgdicts]
+    if pkgdict_orig["name"] not in pkgdicts_names:
+        pkgdicts.append(pkgdict_orig)
+pkglist = [pkgdict["name"] + ">=" + pkgdict["version"] for pkgdict in pkgdicts]
+keyargs["install_requires"].extend(pkglist)
+
+# Find all Packages and Sub-Packages
+packages = find_packages(where="src")
+keyargs["packages"].extend(packages)
+
+print("\nkwargs:")
+pprint(keyargs)
+print("\n")
+
+# Run Setup
+setup(
+    **keyargs,
+    long_description=readme_text,
+    long_description_content_type="text/markdown",
+    # url="",
+    # license="GNU GPLv3",
+    package_dir={f"{pkgname}": f"src/{pkgname}"},
+)
+

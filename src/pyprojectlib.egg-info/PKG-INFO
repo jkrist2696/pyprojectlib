@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyprojectlib
-Version: 0.0.2
+Version: 0.0.4
 Author-email: Jason Krist <jkrist2696@gmail.com>
 License: GPL-3.0-only
 Project-URL: Homepage, https://github.com/jkrist2696/pyprojectlib
@@ -8,7 +8,7 @@ Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
 Classifier: Operating System :: Microsoft :: Windows
 Classifier: Operating System :: Unix
-Requires-Python: >=3.12.0
+Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
 Requires-Dist: cleandoc>=0.0.13
@@ -44,82 +44,86 @@ usage: ppl [-h] {new,push,pack} ...
 Package for managing local python projects and repositories
 
 positional arguments:
-*  {new,push,pack}  Command to execute (options below)
-    *    new            Create a new repo, project, or user of a repo
-    *    push           Save your python project in a local repository
-    *    pack           Package python project into a distributable module
+
+* {new,push,pack}  Command to execute (options below)
+    * new            Create a new repo, project, or user of a repo
+    * push           Save your python project in a local repository
+    * pack           Package python project into a distributable module
 
 ### Command Line Usage: "ppl">"new"
 
 usage: ppl new [-h] {repo,proj,user} ...
 
 positional arguments:
-*    {repo,proj,user}  Create something (options below)
-    *     repo            Create a new empty repository
-    *     proj            Create a new empty project
-    *     user            Add a new user to a local repository
+
+* {repo,proj,user}  Create something (options below)
+    * repo            Create a new empty repository
+    * proj            Create a new empty project
+    * user            Add a new user to a local repository
 
 ### Command Line Usage: "ppl">"new">"repo"
 
-usage: ppl new repo [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
+usage: ppl new repo repopath [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER]
 
 positional arguments:
-*    repopath    Path to local python repository. Directory name = repo name.
+* repopath    Path to local python repository. Directory name = repo name.
 
 options:
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
 ### Command Line Usage: "ppl">"new">"project"
 
-usage: ppl new proj [-h] projpath
+usage: ppl new proj projpath [-h]
 
 positional arguments:
-*    projpath    Path to python project. Directory name = project name.
+* projpath    Path to python project. Directory name = project name.
 
 ### Command Line Usage: "ppl">"new">"user"
 
-usage: ppl new user [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
+usage: ppl new user repopath [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER]
 
 positional arguments:
-*    repopath              Path to local python repository. Directory name = repo name.
+* repopath              Path to local python repository. Directory name = repo name.
 
 options:
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
 ### Command Line Usage: "ppl">"push"
-usage: ppl push [-h] [-relpath RELPATH] [-noclean] [-nodoc] [-notest] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath projpath
+usage: ppl push repopath projpath [-h] [-relpath RELPATH] [-noclean] [-nodoc] [-notest] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER]
 
 positional arguments:
-*    repopath              Path to local python repository. Directory name = repo name.
-*    projpath              Path to python project. Directory name = project name.
+* repopath              Path to local python repository. Directory name = repo name.
+* projpath              Path to python project. Directory name = project name.
 
 options:
-*    -relpath RELPATH, -r RELPATH    Relative path from repository basedir to add project
-*    -noclean, -nc                   Flag to prevent checking py files for cleanliness
-*    -nodoc, -nd                     Flag to prevent html documentation creation
-*    -notest, -nt                    Flag to prevent pytest from running
-*    -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -relpath RELPATH, -r RELPATH    Relative path from repository basedir to add project
+* -noclean, -nc                   Flag to prevent checking py files for cleanliness
+* -nodoc, -nd                     Flag to prevent html documentation creation
+* -notest, -nt                    Flag to prevent pytest from running
+* -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
+* -name NAME, -n NAME             Your full name
+* -email EMAIL, -e EMAIL          Your email address
+* -gituser GITUSER, -g GITUSER    Your username on Github
 
 ### Command Line Usage: "ppl">"pack"
-usage: ppl pack [-h] [-upload] [-install] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] projpath
+usage: ppl pack projpath [-h] [-upload] [-install] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] [-pyversion PYTHONVERSION]
 
 positional arguments:
-*    projpath              Path to python project. Directory name = project name.
+* projpath              Path to python project. Directory name = project name.
 
 options:
-*    -upload, -u                     Flag to upload python module to PYPI after packaging it
-*    -install, -i                    Flag to install python module after packaging it
-*    -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
-*    -name NAME, -n NAME             Your full name
-*    -email EMAIL, -e EMAIL          Your email address
-*    -gituser GITUSER, -g GITUSER    Your username on Github
+* -upload, -u                         Flag to upload python module to PYPI after packaging it
+* -install, -i                        Flag to install python module after packaging it
+* -version VERSION, -v VERSION        Version number of python project (X.Y.Z)
+* -name NAME, -n NAME                 Your full name
+* -email EMAIL, -e EMAIL              Your email address
+* -gituser GITUSER, -g GITUSER        Your username on Github
+* -pyversion PYVERSION, -p PYVERSION  Minimum version of Python required
+* -filetypes FILETYPES, -t FILETYPES  Comma-seperated list of file types to include
 
 ### Python In-Line Usage
 

@@ -1,12 +1,13 @@
-13-11-23 | 19:50:22 | pyprojectlib | DEBUG |     pipreqs packages: ['cleandoc>=0.0.13', 'GitPython>=3.1.40', 'pipreqs>=0.4.13', 'pytest>=7.4.3']
-13-11-23 | 19:50:22 | pyprojectlib | DEBUG |     requirements.txt packages: ['cleandoc>=0.0.13', 'GitPython>=3.1.40', 'pipreqs>=0.4.13', 'pytest>=7.4.3', 'build', 'twine', 'tomli', 'tomli-w', 'types-requests', 'types-setuptools']
-13-11-23 | 19:50:22 | pyprojectlib | DEBUG |     dependent packages: ['cleandoc>=0.0.13', 'GitPython>=3.1.40', 'pipreqs>=0.4.13', 'pytest>=7.4.3', 'build', 'twine', 'tomli', 'tomli-w', 'types-requests', 'types-setuptools']
-13-11-23 | 19:50:22 | pyprojectlib | INFO | Project "pyprojectlib" Version (old >> new) = 0.0.1 >> 0.0.2
-13-11-23 | 19:50:22 | pyprojectlib | DEBUG | User config data: {'user': 'jkris', 'name': 'Jason Krist', 'email': 'jkrist2696@gmail.com', 'gituser': 'jkrist2696'}
-13-11-23 | 19:50:22 | pyprojectlib | DEBUG | Package config data: {'cli': 'ppl="pyprojectlib:cli_main"', 'path': 'C:\\Users\\jkris\\OneDrive\\2022_onward\\2023\\python\\myrepo\\generic\\pyprojectlib', 'name': 'pyprojectlib', 'owner': 'jkris', 'editors': ['jkris']}
-13-11-23 | 19:50:22 | pyprojectlib | INFO | Saving pyproject.toml: C:\Users\jkris\OneDrive\2022_onward\2023\python\myrepo\generic\pyprojectlib\pyproject.toml
-13-11-23 | 19:50:22 | pyprojectlib | INFO | Building Package "pyprojectlib" v0.0.2
-13-11-23 | 19:50:48 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\python.exe', '-m', 'build']
+30-04-24 | 13:48:42 | pyprojectlib | INFO | package_project kwargs: {'install': True, 'upload': True, 'pyversion': '3.6', 'filetypes': 'template'}
+30-04-24 | 13:48:43 | pyprojectlib | DEBUG |     pipreqs packages: ['cleandoc>=0.0.13', 'GitPython>=3.1.40', 'pipreqs>=0.4.13', 'pytest>=7.4.3']
+30-04-24 | 13:48:43 | pyprojectlib | DEBUG |     requirements.txt packages: ['cleandoc>=0.0.13', 'GitPython>=3.1.40', 'pipreqs>=0.4.13', 'pytest>=7.4.3', 'build', 'twine', 'tomli', 'tomli-w', 'types-requests', 'types-setuptools']
+30-04-24 | 13:48:43 | pyprojectlib | DEBUG |     dependent packages: ['cleandoc>=0.0.13', 'GitPython>=3.1.40', 'pipreqs>=0.4.13', 'pytest>=7.4.3', 'build', 'twine', 'tomli', 'tomli-w', 'types-requests', 'types-setuptools']
+30-04-24 | 13:48:43 | pyprojectlib | INFO | Project "pyprojectlib" Version (old >> new) = 0.0.3 >> 0.0.4
+30-04-24 | 13:48:43 | pyprojectlib | DEBUG | User config data: {'user': 'jkris', 'name': 'Jason Krist', 'email': 'jkrist2696@gmail.com', 'gituser': 'jkrist2696'}
+30-04-24 | 13:48:43 | pyprojectlib | DEBUG | Package config data: {'cli': 'ppl="pyprojectlib:cli_main"', 'path': 'C:\\Users\\jkris\\OneDrive\\2022_onward\\2023\\python\\myrepo\\generic\\pyprojectlib', 'name': 'pyprojectlib', 'owner': 'jkris', 'editors': ['jkris']}
+30-04-24 | 13:48:43 | pyprojectlib | INFO | Saving pyproject.toml: C:\Users\jkris\OneDrive\2022_onward\2023\python\myrepo\generic\pyprojectlib\pyproject.toml
+30-04-24 | 13:48:43 | pyprojectlib | INFO | Building Package "pyprojectlib" v0.0.4
+30-04-24 | 13:49:13 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\python.exe', '-m', 'build']
 
 * Creating venv isolated environment...
 * Installing packages in isolated environment... (setuptools, wheel)
@@ -34,32 +35,35 @@ reading manifest file 'src\pyprojectlib.egg-info\SOURCES.txt'
 adding license file 'LICENSE.txt'
 writing manifest file 'src\pyprojectlib.egg-info\SOURCES.txt'
 running check
-creating pyprojectlib-0.0.2
-creating pyprojectlib-0.0.2\src
-creating pyprojectlib-0.0.2\src\pyprojectlib
-creating pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-copying files to pyprojectlib-0.0.2...
-copying LICENSE.txt -> pyprojectlib-0.0.2
-copying README.md -> pyprojectlib-0.0.2
-copying pyproject.toml -> pyprojectlib-0.0.2
-copying src\pyprojectlib\__init__.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\cli.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\constants.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\helper.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\py.typed -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\pypackage.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\pyproject.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\pyrepo.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib\pyuser.py -> pyprojectlib-0.0.2\src\pyprojectlib
-copying src\pyprojectlib.egg-info\PKG-INFO -> pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-copying src\pyprojectlib.egg-info\SOURCES.txt -> pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-copying src\pyprojectlib.egg-info\dependency_links.txt -> pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-copying src\pyprojectlib.egg-info\entry_points.txt -> pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-copying src\pyprojectlib.egg-info\requires.txt -> pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-copying src\pyprojectlib.egg-info\top_level.txt -> pyprojectlib-0.0.2\src\pyprojectlib.egg-info
-Writing pyprojectlib-0.0.2\setup.cfg
+creating pyprojectlib-0.0.4
+creating pyprojectlib-0.0.4\src
+creating pyprojectlib-0.0.4\src\pyprojectlib
+creating pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying files to pyprojectlib-0.0.4...
+copying LICENSE.txt -> pyprojectlib-0.0.4
+copying README.md -> pyprojectlib-0.0.4
+copying pyproject.toml -> pyprojectlib-0.0.4
+copying src\pyprojectlib\LICENSE.template -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\README.template -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\__init__.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\cli.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\constants.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\helper.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\py.typed -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\pypackage.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\pyproject.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\pyrepo.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib\pyuser.py -> pyprojectlib-0.0.4\src\pyprojectlib
+copying src\pyprojectlib.egg-info\PKG-INFO -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying src\pyprojectlib.egg-info\SOURCES.txt -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying src\pyprojectlib.egg-info\dependency_links.txt -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying src\pyprojectlib.egg-info\entry_points.txt -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying src\pyprojectlib.egg-info\requires.txt -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying src\pyprojectlib.egg-info\top_level.txt -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+copying src\pyprojectlib.egg-info\SOURCES.txt -> pyprojectlib-0.0.4\src\pyprojectlib.egg-info
+Writing pyprojectlib-0.0.4\setup.cfg
 Creating tar archive
-removing 'pyprojectlib-0.0.2' (and everything under it)
+removing 'pyprojectlib-0.0.4' (and everything under it)
 * Building wheel from sdist
 * Creating venv isolated environment...
 * Installing packages in isolated environment... (setuptools, wheel)
@@ -98,6 +102,8 @@ writing top-level names to src\pyprojectlib.egg-info\top_level.txt
 reading manifest file 'src\pyprojectlib.egg-info\SOURCES.txt'
 adding license file 'LICENSE.txt'
 writing manifest file 'src\pyprojectlib.egg-info\SOURCES.txt'
+copying src\pyprojectlib\LICENSE.template -> build\lib\pyprojectlib
+copying src\pyprojectlib\README.template -> build\lib\pyprojectlib
 copying src\pyprojectlib\py.typed -> build\lib\pyprojectlib
 installing to build\bdist.win-amd64\wheel
 running install
@@ -108,17 +114,21 @@ creating build\bdist.win-amd64\wheel\pyprojectlib
 copying build\lib\pyprojectlib\cli.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\constants.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\helper.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
+copying build\lib\pyprojectlib\LICENSE.template -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\py.typed -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\pypackage.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\pyproject.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\pyrepo.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\pyuser.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
+copying build\lib\pyprojectlib\README.template -> build\bdist.win-amd64\wheel\.\pyprojectlib
 copying build\lib\pyprojectlib\__init__.py -> build\bdist.win-amd64\wheel\.\pyprojectlib
 running install_egg_info
-Copying src\pyprojectlib.egg-info to build\bdist.win-amd64\wheel\.\pyprojectlib-0.0.2-py3.12.egg-info
+Copying src\pyprojectlib.egg-info to build\bdist.win-amd64\wheel\.\pyprojectlib-0.0.4-py3.12.egg-info
 running install_scripts
-creating build\bdist.win-amd64\wheel\pyprojectlib-0.0.2.dist-info\WHEEL
-creating 'C:\Users\jkris\OneDrive\2022_onward\2023\python\myrepo\generic\pyprojectlib\dist\.tmp-3uz6enqt\pyprojectlib-0.0.2-py3-none-any.whl' and adding 'build\bdist.win-amd64\wheel' to it
+creating build\bdist.win-amd64\wheel\pyprojectlib-0.0.4.dist-info\WHEEL
+creating 'C:\Users\jkris\OneDrive\2022_onward\2023\python\myrepo\generic\pyprojectlib\dist\.tmp-jkjx5v78\pyprojectlib-0.0.4-py3-none-any.whl' and adding 'build\bdist.win-amd64\wheel' to it
+adding 'pyprojectlib/LICENSE.template'
+adding 'pyprojectlib/README.template'
 adding 'pyprojectlib/__init__.py'
 adding 'pyprojectlib/cli.py'
 adding 'pyprojectlib/constants.py'
@@ -128,25 +138,29 @@ adding 'pyprojectlib/pypackage.py'
 adding 'pyprojectlib/pyproject.py'
 adding 'pyprojectlib/pyrepo.py'
 adding 'pyprojectlib/pyuser.py'
-adding 'pyprojectlib-0.0.2.dist-info/LICENSE.txt'
-adding 'pyprojectlib-0.0.2.dist-info/METADATA'
-adding 'pyprojectlib-0.0.2.dist-info/WHEEL'
-adding 'pyprojectlib-0.0.2.dist-info/entry_points.txt'
-adding 'pyprojectlib-0.0.2.dist-info/top_level.txt'
-adding 'pyprojectlib-0.0.2.dist-info/RECORD'
+adding 'pyprojectlib-0.0.4.dist-info/LICENSE.txt'
+adding 'pyprojectlib-0.0.4.dist-info/METADATA'
+adding 'pyprojectlib-0.0.4.dist-info/WHEEL'
+adding 'pyprojectlib-0.0.4.dist-info/entry_points.txt'
+adding 'pyprojectlib-0.0.4.dist-info/top_level.txt'
+adding 'pyprojectlib-0.0.4.dist-info/RECORD'
 removing build\bdist.win-amd64\wheel
-Successfully built pyprojectlib-0.0.2.tar.gz and pyprojectlib-0.0.2-py3-none-any.whl
+Successfully built pyprojectlib-0.0.4.tar.gz and pyprojectlib-0.0.4-py3-none-any.whl
 
 
-13-11-23 | 19:50:48 | pyprojectlib | INFO | Checking Package "pyprojectlib" v0.0.2
-13-11-23 | 19:50:49 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\Scripts\\twine', 'check', 'dist/*']
+30-04-24 | 13:49:13 | pyprojectlib | INFO | Checking Package "pyprojectlib" v0.0.4
+30-04-24 | 13:49:13 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\Scripts\\twine', 'check', 'dist/*']
 
 Checking dist\pyprojectlib-0.0.2-py3-none-any.whl: PASSED
+Checking dist\pyprojectlib-0.0.3-py3-none-any.whl: PASSED
+Checking dist\pyprojectlib-0.0.4-py3-none-any.whl: PASSED
 Checking dist\pyprojectlib-0.0.2.tar.gz: PASSED
+Checking dist\pyprojectlib-0.0.3.tar.gz: PASSED
+Checking dist\pyprojectlib-0.0.4.tar.gz: PASSED
 
 
-13-11-23 | 19:50:49 | pyprojectlib | INFO | Installing Package "pyprojectlib" v0.0.2
-13-11-23 | 19:50:59 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\Scripts\\pip3', 'install', '.']
+30-04-24 | 13:49:13 | pyprojectlib | INFO | Installing Package "pyprojectlib" v0.0.4
+30-04-24 | 13:49:25 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\Scripts\\pip3', 'install', '.']
 
 Processing c:\users\jkris\onedrive\2022_onward\2023\python\myrepo\generic\pyprojectlib
   Installing build dependencies: started
@@ -155,96 +169,96 @@ Processing c:\users\jkris\onedrive\2022_onward\2023\python\myrepo\generic\pyproj
   Getting requirements to build wheel: finished with status 'done'
   Preparing metadata (pyproject.toml): started
   Preparing metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: cleandoc>=0.0.13 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (0.0.13)
-Requirement already satisfied: GitPython>=3.1.40 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (3.1.40)
-Requirement already satisfied: pipreqs>=0.4.13 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (0.4.13)
-Requirement already satisfied: pytest>=7.4.3 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (7.4.3)
-Requirement already satisfied: build in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (1.0.3)
-Requirement already satisfied: twine in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (4.0.2)
-Requirement already satisfied: tomli in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (2.0.1)
-Requirement already satisfied: tomli-w in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (1.0.0)
-Requirement already satisfied: types-requests in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (2.31.0.10)
-Requirement already satisfied: types-setuptools in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.2) (68.2.0.1)
-Requirement already satisfied: black>=23.3.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (23.11.0)
-Requirement already satisfied: Sphinx>=6.2.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (7.2.6)
-Requirement already satisfied: doq>=0.9.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.10.0)
-Requirement already satisfied: m2r2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.3.2)
-Requirement already satisfied: sphinx-rtd-theme in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.3.0)
-Requirement already satisfied: pylint in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (3.0.2)
-Requirement already satisfied: mypy in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.7.0)
-Requirement already satisfied: gitdb<5,>=4.0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from GitPython>=3.1.40->pyprojectlib==0.0.2) (4.0.11)
-Requirement already satisfied: docopt in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pipreqs>=0.4.13->pyprojectlib==0.0.2) (0.6.2)
-Requirement already satisfied: yarg in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pipreqs>=0.4.13->pyprojectlib==0.0.2) (0.1.9)
-Requirement already satisfied: iniconfig in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.2) (2.0.0)
-Requirement already satisfied: packaging in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.2) (23.2)
-Requirement already satisfied: pluggy<2.0,>=0.12 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.2) (1.3.0)
-Requirement already satisfied: colorama in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.2) (0.4.6)
-Requirement already satisfied: pyproject_hooks in c:\users\jkris\.conda\envs\py312\lib\site-packages (from build->pyprojectlib==0.0.2) (1.0.0)
-Requirement already satisfied: pkginfo>=1.8.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (1.9.6)
-Requirement already satisfied: readme-renderer>=35.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (42.0)
-Requirement already satisfied: requests>=2.20 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (2.31.0)
-Requirement already satisfied: requests-toolbelt!=0.9.0,>=0.8.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (1.0.0)
-Requirement already satisfied: urllib3>=1.26.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (2.0.7)
-Requirement already satisfied: importlib-metadata>=3.6 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (6.8.0)
-Requirement already satisfied: keyring>=15.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (24.2.0)
-Requirement already satisfied: rfc3986>=1.4.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (2.0.0)
-Requirement already satisfied: rich>=12.0.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.2) (13.6.0)
-Requirement already satisfied: click>=8.0.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.2) (8.1.7)
-Requirement already satisfied: mypy-extensions>=0.4.3 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.0.0)
-Requirement already satisfied: pathspec>=0.9.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.11.2)
-Requirement already satisfied: platformdirs>=2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.2) (4.0.0)
-Requirement already satisfied: parso in c:\users\jkris\.conda\envs\py312\lib\site-packages (from doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.8.3)
-Requirement already satisfied: jinja2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (3.1.2)
-Requirement already satisfied: toml in c:\users\jkris\.conda\envs\py312\lib\site-packages (from doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.10.2)
-Requirement already satisfied: smmap<6,>=3.0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from gitdb<5,>=4.0.1->GitPython>=3.1.40->pyprojectlib==0.0.2) (5.0.1)
-Requirement already satisfied: zipp>=0.5 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from importlib-metadata>=3.6->twine->pyprojectlib==0.0.2) (3.17.0)
-Requirement already satisfied: jaraco.classes in c:\users\jkris\.conda\envs\py312\lib\site-packages (from keyring>=15.1->twine->pyprojectlib==0.0.2) (3.3.0)
-Requirement already satisfied: pywin32-ctypes>=0.2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from keyring>=15.1->twine->pyprojectlib==0.0.2) (0.2.2)
-Requirement already satisfied: nh3>=0.2.14 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from readme-renderer>=35.0->twine->pyprojectlib==0.0.2) (0.2.14)
-Requirement already satisfied: docutils>=0.13.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from readme-renderer>=35.0->twine->pyprojectlib==0.0.2) (0.18.1)
-Requirement already satisfied: Pygments>=2.5.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from readme-renderer>=35.0->twine->pyprojectlib==0.0.2) (2.16.1)
-Requirement already satisfied: charset-normalizer<4,>=2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from requests>=2.20->twine->pyprojectlib==0.0.2) (3.3.2)
-Requirement already satisfied: idna<4,>=2.5 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from requests>=2.20->twine->pyprojectlib==0.0.2) (3.4)
-Requirement already satisfied: certifi>=2017.4.17 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from requests>=2.20->twine->pyprojectlib==0.0.2) (2023.7.22)
-Requirement already satisfied: markdown-it-py>=2.2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from rich>=12.0.0->twine->pyprojectlib==0.0.2) (3.0.0)
-Requirement already satisfied: sphinxcontrib-applehelp in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.0.7)
-Requirement already satisfied: sphinxcontrib-devhelp in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.0.5)
-Requirement already satisfied: sphinxcontrib-jsmath in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.0.1)
-Requirement already satisfied: sphinxcontrib-htmlhelp>=2.0.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (2.0.4)
-Requirement already satisfied: sphinxcontrib-serializinghtml>=1.1.9 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.1.9)
-Requirement already satisfied: sphinxcontrib-qthelp in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.0.6)
-Requirement already satisfied: snowballstemmer>=2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (2.2.0)
-Requirement already satisfied: babel>=2.9 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (2.13.1)
-Requirement already satisfied: alabaster<0.8,>=0.7 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.7.13)
-Requirement already satisfied: imagesize>=1.3 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (1.4.1)
-Requirement already satisfied: mistune==0.8.4 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from m2r2->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.8.4)
-Requirement already satisfied: typing-extensions>=4.1.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from mypy->cleandoc>=0.0.13->pyprojectlib==0.0.2) (4.8.0)
-Requirement already satisfied: astroid<=3.1.0-dev0,>=3.0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.2) (3.0.1)
-Requirement already satisfied: isort<6,>=4.2.5 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.2) (5.12.0)
-Requirement already satisfied: mccabe<0.8,>=0.6 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.7.0)
-Requirement already satisfied: tomlkit>=0.10.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.12.2)
-Requirement already satisfied: dill>=0.3.6 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.2) (0.3.7)
-Requirement already satisfied: sphinxcontrib-jquery<5,>=4 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from sphinx-rtd-theme->cleandoc>=0.0.13->pyprojectlib==0.0.2) (4.1)
-Requirement already satisfied: setuptools in c:\users\jkris\.conda\envs\py312\lib\site-packages (from babel>=2.9->Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (68.0.0)
-Requirement already satisfied: MarkupSafe>=2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from jinja2->doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.2) (2.1.3)
-Requirement already satisfied: mdurl~=0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from markdown-it-py>=2.2.0->rich>=12.0.0->twine->pyprojectlib==0.0.2) (0.1.2)
-Requirement already satisfied: more-itertools in c:\users\jkris\.conda\envs\py312\lib\site-packages (from jaraco.classes->keyring>=15.1->twine->pyprojectlib==0.0.2) (10.1.0)
+Requirement already satisfied: cleandoc>=0.0.13 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (0.0.13)
+Requirement already satisfied: GitPython>=3.1.40 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (3.1.40)
+Requirement already satisfied: pipreqs>=0.4.13 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (0.4.13)
+Requirement already satisfied: pytest>=7.4.3 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (7.4.3)
+Requirement already satisfied: build in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (1.0.3)
+Requirement already satisfied: twine in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (4.0.2)
+Requirement already satisfied: tomli in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (2.0.1)
+Requirement already satisfied: tomli-w in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (1.0.0)
+Requirement already satisfied: types-requests in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (2.31.0.10)
+Requirement already satisfied: types-setuptools in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pyprojectlib==0.0.4) (68.2.0.1)
+Requirement already satisfied: black>=23.3.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (23.11.0)
+Requirement already satisfied: Sphinx>=6.2.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (7.2.6)
+Requirement already satisfied: doq>=0.9.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.10.0)
+Requirement already satisfied: m2r2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.3.2)
+Requirement already satisfied: sphinx-rtd-theme in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.3.0)
+Requirement already satisfied: pylint in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (3.0.2)
+Requirement already satisfied: mypy in c:\users\jkris\.conda\envs\py312\lib\site-packages (from cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.7.0)
+Requirement already satisfied: gitdb<5,>=4.0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from GitPython>=3.1.40->pyprojectlib==0.0.4) (4.0.11)
+Requirement already satisfied: docopt in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pipreqs>=0.4.13->pyprojectlib==0.0.4) (0.6.2)
+Requirement already satisfied: yarg in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pipreqs>=0.4.13->pyprojectlib==0.0.4) (0.1.9)
+Requirement already satisfied: iniconfig in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.4) (2.0.0)
+Requirement already satisfied: packaging in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.4) (23.2)
+Requirement already satisfied: pluggy<2.0,>=0.12 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.4) (1.3.0)
+Requirement already satisfied: colorama in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pytest>=7.4.3->pyprojectlib==0.0.4) (0.4.6)
+Requirement already satisfied: pyproject_hooks in c:\users\jkris\.conda\envs\py312\lib\site-packages (from build->pyprojectlib==0.0.4) (1.0.0)
+Requirement already satisfied: pkginfo>=1.8.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (1.9.6)
+Requirement already satisfied: readme-renderer>=35.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (42.0)
+Requirement already satisfied: requests>=2.20 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (2.31.0)
+Requirement already satisfied: requests-toolbelt!=0.9.0,>=0.8.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (1.0.0)
+Requirement already satisfied: urllib3>=1.26.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (2.0.7)
+Requirement already satisfied: importlib-metadata>=3.6 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (6.8.0)
+Requirement already satisfied: keyring>=15.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (24.2.0)
+Requirement already satisfied: rfc3986>=1.4.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (2.0.0)
+Requirement already satisfied: rich>=12.0.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from twine->pyprojectlib==0.0.4) (13.6.0)
+Requirement already satisfied: click>=8.0.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.4) (8.1.7)
+Requirement already satisfied: mypy-extensions>=0.4.3 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.0.0)
+Requirement already satisfied: pathspec>=0.9.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.11.2)
+Requirement already satisfied: platformdirs>=2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from black>=23.3.0->cleandoc>=0.0.13->pyprojectlib==0.0.4) (4.0.0)
+Requirement already satisfied: parso in c:\users\jkris\.conda\envs\py312\lib\site-packages (from doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.8.3)
+Requirement already satisfied: jinja2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (3.1.2)
+Requirement already satisfied: toml in c:\users\jkris\.conda\envs\py312\lib\site-packages (from doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.10.2)
+Requirement already satisfied: smmap<6,>=3.0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from gitdb<5,>=4.0.1->GitPython>=3.1.40->pyprojectlib==0.0.4) (5.0.1)
+Requirement already satisfied: zipp>=0.5 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from importlib-metadata>=3.6->twine->pyprojectlib==0.0.4) (3.17.0)
+Requirement already satisfied: jaraco.classes in c:\users\jkris\.conda\envs\py312\lib\site-packages (from keyring>=15.1->twine->pyprojectlib==0.0.4) (3.3.0)
+Requirement already satisfied: pywin32-ctypes>=0.2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from keyring>=15.1->twine->pyprojectlib==0.0.4) (0.2.2)
+Requirement already satisfied: nh3>=0.2.14 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from readme-renderer>=35.0->twine->pyprojectlib==0.0.4) (0.2.14)
+Requirement already satisfied: docutils>=0.13.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from readme-renderer>=35.0->twine->pyprojectlib==0.0.4) (0.18.1)
+Requirement already satisfied: Pygments>=2.5.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from readme-renderer>=35.0->twine->pyprojectlib==0.0.4) (2.16.1)
+Requirement already satisfied: charset-normalizer<4,>=2 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from requests>=2.20->twine->pyprojectlib==0.0.4) (3.3.2)
+Requirement already satisfied: idna<4,>=2.5 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from requests>=2.20->twine->pyprojectlib==0.0.4) (3.4)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from requests>=2.20->twine->pyprojectlib==0.0.4) (2023.7.22)
+Requirement already satisfied: markdown-it-py>=2.2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from rich>=12.0.0->twine->pyprojectlib==0.0.4) (3.0.0)
+Requirement already satisfied: sphinxcontrib-applehelp in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.0.7)
+Requirement already satisfied: sphinxcontrib-devhelp in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.0.5)
+Requirement already satisfied: sphinxcontrib-jsmath in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.0.1)
+Requirement already satisfied: sphinxcontrib-htmlhelp>=2.0.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (2.0.4)
+Requirement already satisfied: sphinxcontrib-serializinghtml>=1.1.9 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.1.9)
+Requirement already satisfied: sphinxcontrib-qthelp in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.0.6)
+Requirement already satisfied: snowballstemmer>=2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (2.2.0)
+Requirement already satisfied: babel>=2.9 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (2.13.1)
+Requirement already satisfied: alabaster<0.8,>=0.7 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.7.13)
+Requirement already satisfied: imagesize>=1.3 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (1.4.1)
+Requirement already satisfied: mistune==0.8.4 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from m2r2->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.8.4)
+Requirement already satisfied: typing-extensions>=4.1.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from mypy->cleandoc>=0.0.13->pyprojectlib==0.0.4) (4.8.0)
+Requirement already satisfied: astroid<=3.1.0-dev0,>=3.0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.4) (3.0.1)
+Requirement already satisfied: isort<6,>=4.2.5 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.4) (5.12.0)
+Requirement already satisfied: mccabe<0.8,>=0.6 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.7.0)
+Requirement already satisfied: tomlkit>=0.10.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.12.2)
+Requirement already satisfied: dill>=0.3.6 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from pylint->cleandoc>=0.0.13->pyprojectlib==0.0.4) (0.3.7)
+Requirement already satisfied: sphinxcontrib-jquery<5,>=4 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from sphinx-rtd-theme->cleandoc>=0.0.13->pyprojectlib==0.0.4) (4.1)
+Requirement already satisfied: setuptools in c:\users\jkris\.conda\envs\py312\lib\site-packages (from babel>=2.9->Sphinx>=6.2.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (68.0.0)
+Requirement already satisfied: MarkupSafe>=2.0 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from jinja2->doq>=0.9.1->cleandoc>=0.0.13->pyprojectlib==0.0.4) (2.1.3)
+Requirement already satisfied: mdurl~=0.1 in c:\users\jkris\.conda\envs\py312\lib\site-packages (from markdown-it-py>=2.2.0->rich>=12.0.0->twine->pyprojectlib==0.0.4) (0.1.2)
+Requirement already satisfied: more-itertools in c:\users\jkris\.conda\envs\py312\lib\site-packages (from jaraco.classes->keyring>=15.1->twine->pyprojectlib==0.0.4) (10.1.0)
 Building wheels for collected packages: pyprojectlib
   Building wheel for pyprojectlib (pyproject.toml): started
   Building wheel for pyprojectlib (pyproject.toml): finished with status 'done'
-  Created wheel for pyprojectlib: filename=pyprojectlib-0.0.2-py3-none-any.whl size=29473 sha256=0f3022d262590ce0b798c5d1d0db9785ed6a22b8d7da2b836f9fc4079a59900a
-  Stored in directory: C:\Users\jkris\AppData\Local\Temp\pip-ephem-wheel-cache-yyseaisq\wheels\cb\57\0c\5b5e36ae4ea99284e6616ee65578cb0c79425b312156c476ad
+  Created wheel for pyprojectlib: filename=pyprojectlib-0.0.4-py3-none-any.whl size=43835 sha256=29d3b7a179e97027ea69497eb1e03c6b6769c44793ac3772ee69bcc200bbd8ed
+  Stored in directory: C:\Users\jkris\AppData\Local\Temp\pip-ephem-wheel-cache-xnazetzc\wheels\cb\57\0c\5b5e36ae4ea99284e6616ee65578cb0c79425b312156c476ad
 Successfully built pyprojectlib
 Installing collected packages: pyprojectlib
   Attempting uninstall: pyprojectlib
-    Found existing installation: pyprojectlib 0.0.2
-    Uninstalling pyprojectlib-0.0.2:
-      Successfully uninstalled pyprojectlib-0.0.2
-Successfully installed pyprojectlib-0.0.2
+    Found existing installation: pyprojectlib 0.0.4
+    Uninstalling pyprojectlib-0.0.4:
+      Successfully uninstalled pyprojectlib-0.0.4
+Successfully installed pyprojectlib-0.0.4
 
 
-13-11-23 | 19:50:59 | pyprojectlib | INFO | Uploading Package "pyprojectlib" v0.0.2
-13-11-23 | 19:51:02 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\Scripts\\twine', 'upload', 'dist/*']
+30-04-24 | 13:49:25 | pyprojectlib | INFO | Uploading Package "pyprojectlib" v0.0.4
+30-04-24 | 13:49:32 | pyprojectlib | DEBUG | stdout from args: ['C:\\Users\\jkris\\.conda\\envs\\py312\\Scripts\\twine', 'upload', 'dist/*']
 
 Uploading distributions to https://upload.pypi.org/legacy/
 Uploading pyprojectlib-0.0.2-py3-none-any.whl
@@ -255,34 +269,79 @@ Uploading pyprojectlib-0.0.2-py3-none-any.whl
   0% ---------------------------------------- 0.0/40.2 kB  --:--  ?
 100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
 100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
-100% ---------------------------------------- 40.2/40.2 kB  00:00  ?
+Uploading pyprojectlib-0.0.3-py3-none-any.whl
+
+  0% ---------------------------------------- 0.0/40.6 kB  --:--  ?
+100% ---------------------------------------- 40.6/40.6 kB  00:00  ?
+100% ---------------------------------------- 40.6/40.6 kB  00:00  ?
+100% ---------------------------------------- 40.6/40.6 kB  00:00  ?
+100% ---------------------------------------- 40.6/40.6 kB  00:00  ?
+100% ---------------------------------------- 40.6/40.6 kB  00:00  ?
+Uploading pyprojectlib-0.0.4-py3-none-any.whl
+
+  0% ---------------------------------------- 0.0/54.7 kB  --:--  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
+100% ---------------------------------------- 54.7/54.7 kB  00:00  ?
 Uploading pyprojectlib-0.0.2.tar.gz
 
   0% ---------------------------------------- 0.0/38.1 kB  --:--  ?
 100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
 100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
-100% ---------------------------------------- 38.1/38.1 kB  00:00  ?
+Uploading pyprojectlib-0.0.3.tar.gz
+
+  0% ---------------------------------------- 0.0/38.5 kB  --:--  ?
+100% ---------------------------------------- 38.5/38.5 kB  00:00  ?
+100% ---------------------------------------- 38.5/38.5 kB  00:00  ?
+Uploading pyprojectlib-0.0.4.tar.gz
+
+  0% ---------------------------------------- 0.0/52.6 kB  --:--  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
+100% ---------------------------------------- 52.6/52.6 kB  00:00  ?
 
 View at:
+https://pypi.org/project/pyprojectlib/0.0.3/
 https://pypi.org/project/pyprojectlib/0.0.2/
+https://pypi.org/project/pyprojectlib/0.0.4/
 
 

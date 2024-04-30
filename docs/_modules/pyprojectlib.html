@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyprojectlib &mdash; pyprojectlib 0.0.2 documentation</title>
+  <title>pyprojectlib &mdash; pyprojectlib 0.0.4 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -12,7 +12,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../_static/documentation_options.js?v=1a4dbec4"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -32,7 +32,7 @@
             pyprojectlib
           </a>
               <div class="version">
-                0.0.2
+                0.0.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -89,13 +89,16 @@
 
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">get</span>
+
 <span class="kn">from</span> <span class="nn">git</span> <span class="kn">import</span> <span class="n">Repo</span>
-<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">config_log</span><span class="p">,</span> <span class="n">attrs_to_dict</span><span class="p">,</span> <span class="n">create_dirs</span>
-<span class="kn">from</span> <span class="nn">.pyuser</span> <span class="kn">import</span> <span class="n">User</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cli</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">CONS</span>  <span class="c1"># type: ignore # pylint: disable=E0611,E0401</span>
+<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">attrs_to_dict</span><span class="p">,</span> <span class="n">config_log</span><span class="p">,</span> <span class="n">create_dirs</span>
 <span class="kn">from</span> <span class="nn">.pypackage</span> <span class="kn">import</span> <span class="n">Package</span>  <span class="c1"># type: ignore # pylint: disable=E0401,C0413,E0611</span>
 <span class="kn">from</span> <span class="nn">.pyrepo</span> <span class="kn">import</span> <span class="n">Repository</span>  <span class="c1"># type: ignore # pylint: disable=E0401,C0413,E0611</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">CONS</span>  <span class="c1"># type: ignore # pylint: disable=E0611,E0401</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cli</span>
+<span class="kn">from</span> <span class="nn">.pyuser</span> <span class="kn">import</span> <span class="n">User</span>
 
 
 <div class="viewcode-block" id="init_project">
@@ -189,10 +192,14 @@
 <span class="k">def</span> <span class="nf">package_project</span><span class="p">(</span><span class="n">pkgpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;wrapper for _package_project&quot;&quot;&quot;</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">config_log</span><span class="p">()</span>
+    <span class="n">logstr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;package_project kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">CONS</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">logstr</span><span class="p">)</span>
     <span class="n">upload</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="n">install</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">pyversion</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;pyversion&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">filetypes</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;filetypes&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">pkg</span> <span class="o">=</span> <span class="n">Package</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">pkgpath</span><span class="p">),</span> <span class="n">user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">pkg</span><span class="o">.</span><span class="n">save_toml</span><span class="p">()</span>
+    <span class="n">pkg</span><span class="o">.</span><span class="n">save_toml</span><span class="p">(</span><span class="n">pyversion</span><span class="o">=</span><span class="n">pyversion</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="n">filetypes</span><span class="p">)</span>
     <span class="n">pkg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">upload</span><span class="o">=</span><span class="n">upload</span><span class="p">,</span> <span class="n">install</span><span class="o">=</span><span class="n">install</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
         <span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -241,11 +248,38 @@
         <span class="n">projpath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">PROJPATHNAME</span><span class="p">)</span>
         <span class="n">userargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">NAMENAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">EMNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">GUNAME</span><span class="p">])</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="o">**</span><span class="n">userargs</span><span class="p">)</span>
-        <span class="n">kwnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">VERNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">UPNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">INNAME</span><span class="p">]</span>
+        <span class="n">kwnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">cli</span><span class="o">.</span><span class="n">VERNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">UPNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">INNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">PYVERNAME</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">FILETNAME</span><span class="p">]</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="n">attrs_to_dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwnames</span><span class="p">)</span>
         <span class="n">package_project</span><span class="p">(</span><span class="n">projpath</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
         <span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="pypi_version">
+<a class="viewcode-back" href="../pyprojectlib.html#pyprojectlib.pypi_version">[docs]</a>
+<span class="k">def</span> <span class="nf">pypi_version</span><span class="p">(</span><span class="n">pkgname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plus</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;get the latest version number of package from pypi&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pkgpage</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CONS</span><span class="o">.</span><span class="n">PYPI</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">pkgname</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">except</span> <span class="ne">ConnectionError</span> <span class="k">as</span> <span class="n">_error</span><span class="p">:</span>
+        <span class="n">pkgpage</span> <span class="o">=</span> <span class="s2">&quot;page not found&quot;</span>
+    <span class="n">notfoundcheck1</span> <span class="o">=</span> <span class="s2">&quot;page not found&quot;</span> <span class="ow">in</span> <span class="n">pkgpage</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">notfoundcheck2</span> <span class="o">=</span> <span class="s2">&quot;error code 404&quot;</span> <span class="ow">in</span> <span class="n">pkgpage</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">notfoundcheck3</span> <span class="o">=</span> <span class="s2">&quot;couldn&#39;t find this page&quot;</span> <span class="ow">in</span> <span class="n">pkgpage</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">notfoundcheck1</span><span class="p">,</span> <span class="n">notfoundcheck2</span><span class="p">,</span> <span class="n">notfoundcheck3</span><span class="p">]):</span>
+        <span class="n">start_ind</span> <span class="o">=</span> <span class="n">pkgpage</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&lt;h1 class=&quot;package-header__name&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">33</span>
+        <span class="n">latest_start</span> <span class="o">=</span> <span class="n">pkgpage</span><span class="p">[</span><span class="n">start_ind</span><span class="p">:]</span>
+        <span class="n">latest</span> <span class="o">=</span> <span class="n">latest_start</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">latest_start</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&lt;/h1&gt;&quot;</span><span class="p">)]</span>
+        <span class="n">release</span> <span class="o">=</span> <span class="n">latest</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">plus</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">release</span><span class="p">,</span> <span class="kc">True</span>
+    <span class="n">release_split</span> <span class="o">=</span> <span class="n">release</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">release_split</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">release_split</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">release</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">release_split</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">release</span><span class="p">,</span> <span class="kc">True</span></div>
 
 
 
@@ -285,7 +319,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, jkris.</p>
+    <p>&#169; Copyright 2024, jkris.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

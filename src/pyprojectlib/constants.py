@@ -64,4 +64,5 @@ IGNORELIST = [
     "test/docs",
     "test/examples",
     "test/cleandoc_log.txt",
+    "src/*.egg-info/",
 ]

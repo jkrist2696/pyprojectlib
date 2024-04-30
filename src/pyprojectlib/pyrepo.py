@@ -79,7 +79,11 @@ class RepoProject(Project):
         self.required = [CONS.REQFILE, CONS.READFILE, CONS.TEST_DIR, f"src/{self.name}"]
 
     def update(
-        self, test: bool = True, clean: bool = True, doc: bool = True, git: bool = True
+        self,
+        test: bool = True,
+        clean: bool = True,
+        doc: bool = True,
+        git: bool = True,
     ):
         """check code quality, then copy over new version"""
         self._check_required()
@@ -150,8 +154,10 @@ class RepoProject(Project):
         """build project into package"""
         upload = kwargs.pop("upload", False)
         install = kwargs.pop("install", False)
+        pyversion = kwargs.pop("pyversion", "")
+        filetypes = kwargs.pop("filetypes", "")
         pkg = Package(self.repoprojpath, self.repo.user, **kwargs)
-        pkg.save_toml()
+        pkg.save_toml(pyversion=pyversion, filetypes=filetypes)
         pkg.build(upload=upload, install=install)
 
     def _prompt(self):

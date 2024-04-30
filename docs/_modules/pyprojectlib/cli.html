@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyprojectlib.cli &mdash; pyprojectlib 0.0.2 documentation</title>
+  <title>pyprojectlib.cli &mdash; pyprojectlib 0.0.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -12,7 +12,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/documentation_options.js?v=1a4dbec4"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -32,7 +32,7 @@
             pyprojectlib
           </a>
               <div class="version">
-                0.0.2
+                0.0.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -94,6 +94,8 @@
 <span class="n">NAMENAME</span> <span class="o">=</span> <span class="s2">&quot;name&quot;</span>
 <span class="n">EMNAME</span> <span class="o">=</span> <span class="s2">&quot;email&quot;</span>
 <span class="n">GUNAME</span> <span class="o">=</span> <span class="s2">&quot;gituser&quot;</span>
+<span class="n">PYVERNAME</span> <span class="o">=</span> <span class="s2">&quot;pyversion&quot;</span>
+<span class="n">FILETNAME</span> <span class="o">=</span> <span class="s2">&quot;filetypes&quot;</span>
 <span class="n">RELNAME</span> <span class="o">=</span> <span class="s2">&quot;relpath&quot;</span>
 <span class="n">NCNAME</span> <span class="o">=</span> <span class="s2">&quot;noclean&quot;</span>
 <span class="n">NDNAME</span> <span class="o">=</span> <span class="s2">&quot;nodoc&quot;</span>
@@ -124,13 +126,8 @@
 <span class="n">NAME_H</span> <span class="o">=</span> <span class="s2">&quot;Your full name&quot;</span>
 <span class="n">EMAIL_H</span> <span class="o">=</span> <span class="s2">&quot;Your email address&quot;</span>
 <span class="n">GITU_H</span> <span class="o">=</span> <span class="s2">&quot;Your username on Github&quot;</span>
-
-
-<div class="viewcode-block" id="create_parser">
-<a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.cli.create_parser">[docs]</a>
-<span class="k">def</span> <span class="nf">create_parser</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;create parser object&quot;&quot;&quot;</span></div>
-
+<span class="n">PYVERS_H</span> <span class="o">=</span> <span class="s2">&quot;Minimum version of Python required&quot;</span>
+<span class="n">FILET_H</span> <span class="o">=</span> <span class="s2">&quot;Comma-seperated list of file types to include&quot;</span>
 
 
 <div class="viewcode-block" id="cli_parse">
@@ -175,6 +172,8 @@
     <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">NAMENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">NAME_H</span><span class="p">)</span>
     <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">EMNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">EMAIL_H</span><span class="p">)</span>
     <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">GUNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">GITU_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">PYVERNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">PYVERS_H</span><span class="p">)</span>
+    <span class="n">pack_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">FILETNAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-ft&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">FILET_H</span><span class="p">)</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="n">argitems</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -214,7 +213,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, jkris.</p>
+    <p>&#169; Copyright 2024, jkris.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,4 +1,5 @@
 """helpers"""
+
 from os import path, makedirs, remove
 import logging
 from shutil import rmtree
@@ -142,3 +143,24 @@ def attrs_to_dict(obj, namelist: list[str]) -> dict:
     for name in namelist:
         kwdict[name] = getattr(obj, name)
     return kwdict
+
+
+def pyversion_check(pyversion: str):
+    """check if python version string is properly formatted"""
+    pyvers = pyversion.split(".")
+    helpstr = "Python version must have 2 numbers with a period between them (X.Y)"
+    if any([len(pyvers) < 2, len(pyvers) > 2]):
+        raise ValueError(f"pyversion: {pyversion}\n{helpstr}")
+    if not all([pyvers[0].isdigit(), pyvers[1].isdigit()]):
+        raise ValueError(f"pyversion: {pyversion}\n{helpstr}")
+    if any(
+        [
+            int(pyvers[0]) <= 1,
+            int(pyvers[0]) >= 4,
+            int(pyvers[1]) < 0,
+            int(pyvers[1]) > 12,
+        ]
+    ):
+        raise ValueError(
+            f"pyversion: {pyversion}\nPython Version must be in range [2.0, 3.12]"
+        )

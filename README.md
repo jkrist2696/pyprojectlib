@@ -20,6 +20,7 @@ usage: ppl [-h] {new,push,pack} ...
 Package for managing local python projects and repositories
 
 positional arguments:
+
 * {new,push,pack}  Command to execute (options below)
     * new            Create a new repo, project, or user of a repo
     * push           Save your python project in a local repository
@@ -38,7 +39,7 @@ positional arguments:
 
 ### Command Line Usage: "ppl">"new">"repo"
 
-usage: ppl new repo [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
+usage: ppl new repo repopath [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER]
 
 positional arguments:
 * repopath    Path to local python repository. Directory name = repo name.
@@ -50,14 +51,14 @@ options:
 
 ### Command Line Usage: "ppl">"new">"project"
 
-usage: ppl new proj [-h] projpath
+usage: ppl new proj projpath [-h]
 
 positional arguments:
 * projpath    Path to python project. Directory name = project name.
 
 ### Command Line Usage: "ppl">"new">"user"
 
-usage: ppl new user [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath
+usage: ppl new user repopath [-h] [-name NAME] [-email EMAIL] [-gituser GITUSER]
 
 positional arguments:
 * repopath              Path to local python repository. Directory name = repo name.
@@ -68,7 +69,7 @@ options:
 * -gituser GITUSER, -g GITUSER    Your username on Github
 
 ### Command Line Usage: "ppl">"push"
-usage: ppl push [-h] [-relpath RELPATH] [-noclean] [-nodoc] [-notest] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] repopath projpath
+usage: ppl push repopath projpath [-h] [-relpath RELPATH] [-noclean] [-nodoc] [-notest] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER]
 
 positional arguments:
 * repopath              Path to local python repository. Directory name = repo name.
@@ -85,18 +86,20 @@ options:
 * -gituser GITUSER, -g GITUSER    Your username on Github
 
 ### Command Line Usage: "ppl">"pack"
-usage: ppl pack [-h] [-upload] [-install] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] projpath
+usage: ppl pack projpath [-h] [-upload] [-install] [-version VERSION] [-name NAME] [-email EMAIL] [-gituser GITUSER] [-pyversion PYTHONVERSION]
 
 positional arguments:
 * projpath              Path to python project. Directory name = project name.
 
 options:
-* -upload, -u                     Flag to upload python module to PYPI after packaging it
-* -install, -i                    Flag to install python module after packaging it
-* -version VERSION, -v VERSION    Version number of python project (X.Y.Z)
-* -name NAME, -n NAME             Your full name
-* -email EMAIL, -e EMAIL          Your email address
-* -gituser GITUSER, -g GITUSER    Your username on Github
+* -upload, -u                         Flag to upload python module to PYPI after packaging it
+* -install, -i                        Flag to install python module after packaging it
+* -version VERSION, -v VERSION        Version number of python project (X.Y.Z)
+* -name NAME, -n NAME                 Your full name
+* -email EMAIL, -e EMAIL              Your email address
+* -gituser GITUSER, -g GITUSER        Your username on Github
+* -pyversion PYVERSION, -p PYVERSION  Minimum version of Python required
+* -filetypes FILETYPES, -t FILETYPES  Comma-seperated list of file types to include
 
 ### Python In-Line Usage
 

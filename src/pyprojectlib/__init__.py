@@ -14,13 +14,16 @@ Written by Jason Krist
 
 from os import path
 from shutil import copyfile
+from requests import get
+
 from git import Repo
-from .helper import config_log, attrs_to_dict, create_dirs
-from .pyuser import User
+
+from . import cli
+from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
+from .helper import attrs_to_dict, config_log, create_dirs
 from .pypackage import Package  # type: ignore # pylint: disable=E0401,C0413,E0611
 from .pyrepo import Repository  # type: ignore # pylint: disable=E0401,C0413,E0611
-from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
-from . import cli
+from .pyuser import User
 
 
 def init_project(dirpath: str):
@@ -100,10 +103,14 @@ def push_to_repo(repopath: str, projpath: str, **kwargs):
 def package_project(pkgpath: str, user: User, **kwargs):
     """wrapper for _package_project"""
     logger = config_log()
+    logstr = f"package_project kwargs: {kwargs}"
+    CONS.log().info(logstr)
     upload = kwargs.pop("upload", False)
     install = kwargs.pop("install", False)
+    pyversion = kwargs.pop("pyversion", "")
+    filetypes = kwargs.pop("filetypes", "")
     pkg = Package(path.realpath(pkgpath), user, **kwargs)
-    pkg.save_toml()
+    pkg.save_toml(pyversion=pyversion, filetypes=filetypes)
     pkg.build(upload=upload, install=install)
     for handle in logger.handlers:
         handle.close()
@@ -149,11 +156,35 @@ def cli_main():
         projpath = getattr(args, cli.PROJPATHNAME)
         userargs = attrs_to_dict(args, [cli.NAMENAME, cli.EMNAME, cli.GUNAME])
         user = User(**userargs)
-        kwnames = [cli.VERNAME, cli.UPNAME, cli.INNAME]
+        kwnames = [cli.VERNAME, cli.UPNAME, cli.INNAME, cli.PYVERNAME, cli.FILETNAME]
         kwargs = attrs_to_dict(args, kwnames)
         package_project(projpath, user, **kwargs)
     for handle in logger.handlers:
         handle.close()
+
+
+def pypi_version(pkgname: str, plus: bool = False) -> tuple[str, bool]:
+    """get the latest version number of package from pypi"""
+    try:
+        pkgpage = get(f"{CONS.PYPI}/{pkgname}/", timeout=10).text
+    except ConnectionError as _error:
+        pkgpage = "page not found"
+    notfoundcheck1 = "page not found" in pkgpage.lower()
+    notfoundcheck2 = "error code 404" in pkgpage.lower()
+    notfoundcheck3 = "couldn't find this page" in pkgpage.lower()
+    if not any([notfoundcheck1, notfoundcheck2, notfoundcheck3]):
+        start_ind = pkgpage.find('<h1 class="package-header__name">') + 33
+        latest_start = pkgpage[start_ind:]
+        latest = latest_start[0 : latest_start.find("</h1>")]
+        release = latest.strip().split(" ")[1]
+    else:
+        return "0.0.1", False
+    if not plus:
+        return release, True
+    release_split = release.split(".")
+    release_split[2] = str(int(release_split[2]) + 1)
+    release = ".".join(release_split)
+    return release, True
 
 
 def add_log(func):

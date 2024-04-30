@@ -1,0 +1,30 @@
+[project]
+name = "setup_pyproject"
+version = "0.0.1"
+authors = [{ name = "Jason Krist", email = "jkrist2696@gmail.com" }]
+description = "A small example package"
+keywords = [""]
+license = { file = "LICENSE.txt" }
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "OSI Approved :: GNU General Public License v3 (GPLv3)",
+    'Typing :: Typed',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: Unix',
+]
+dependencies = [{dep_str}]# 'Operating System :: POSIX',
+# 'Operating System :: MacOS',
+
+[project.scripts]
+{pkgname} = "{pkgname}:{cli_function}"
+
+[project.urls]
+"Homepage" = "https://github.com/profile/pkgname"
+
+#[tool.setuptools] need anything here?
+
+#[build-system] this is default right?
+#requires = ["setuptools", "wheel"]
+#build-backend = "setuptools.build_meta"

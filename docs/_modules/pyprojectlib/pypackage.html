@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyprojectlib.pypackage &mdash; pyprojectlib 0.0.2 documentation</title>
+  <title>pyprojectlib.pypackage &mdash; pyprojectlib 0.0.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -12,7 +12,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/documentation_options.js?v=1a4dbec4"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -32,7 +32,7 @@
             pyprojectlib
           </a>
               <div class="version">
-                0.0.2
+                0.0.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -84,12 +84,13 @@
 <span class="sd">    twine upload dist/*</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">mkdir</span>
 <span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">split</span>
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
 <span class="kn">import</span> <span class="nn">pipreqs.pipreqs</span> <span class="k">as</span> <span class="nn">pr</span>  <span class="c1"># type: ignore # pylint: disable=E0401</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">CONS</span>  <span class="c1"># type: ignore # pylint: disable=E0611,E0401</span>
-<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">prompt_user</span><span class="p">,</span> <span class="n">run_capture_out</span>
+<span class="kn">from</span> <span class="nn">.helper</span> <span class="kn">import</span> <span class="n">prompt_user</span><span class="p">,</span> <span class="n">run_capture_out</span><span class="p">,</span> <span class="n">pyversion_check</span>
 <span class="kn">from</span> <span class="nn">.pyuser</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">.pyproject</span> <span class="kn">import</span> <span class="n">Project</span>
 
@@ -145,7 +146,7 @@
 
 <div class="viewcode-block" id="Package.save_toml">
 <a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pypackage.Package.save_toml">[docs]</a>
-    <span class="k">def</span> <span class="nf">save_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">save_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pyversion</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">filetypes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;save_toml&quot;&quot;&quot;</span>
         <span class="n">depstr</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">&quot;&#39;</span> <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dep_pkgs</span><span class="p">])</span>
         <span class="n">toml_str</span> <span class="o">=</span> <span class="n">CONS</span><span class="o">.</span><span class="n">TOMLSTR_START</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;name = &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -154,12 +155,18 @@
         <span class="n">toml_str</span> <span class="o">+=</span> <span class="s1">&#39;authors = [{ name = &quot;&#39;</span>
         <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">author</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, email = &quot;</span><span class="si">{</span><span class="n">author</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s1">&quot; </span><span class="se">}}</span><span class="s1">]</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;description = &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;requires-python = &quot;&gt;=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pyversion</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="s2">&quot;current&quot;</span> <span class="ow">in</span> <span class="n">pyversion</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;requires-python = &quot;&gt;=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pyversion</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pyversion</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pyversion_check</span><span class="p">(</span><span class="n">pyversion</span><span class="p">)</span>
+            <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;requires-python = &quot;&gt;=</span><span class="si">{</span><span class="n">pyversion</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;dependencies = [</span><span class="si">{</span><span class="n">depstr</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="c1"># toml_str += &#39;[tool.setuptools.packages.find]\nwhere = [&quot;src&quot;]\n&#39;</span>
         <span class="c1"># toml_str += f&#39;exclude = [&quot;*.__pycache__&quot;]\n&#39;</span>
         <span class="n">toml_str</span> <span class="o">+=</span> <span class="s2">&quot;[tool.setuptools.package-data]</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = [&quot;*.typed&quot;, &quot;.template&quot;]</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">filetypes_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span> <span class="k">else</span> <span class="n">ft</span> <span class="k">for</span> <span class="n">ft</span> <span class="ow">in</span> <span class="n">filetypes</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+        <span class="n">filetypes_str</span> <span class="o">=</span> <span class="s1">&#39;&quot;, &quot;*.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;typed&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">filetypes_list</span><span class="p">)</span>
+        <span class="n">toml_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = [&quot;*.</span><span class="si">{</span><span class="n">filetypes_str</span><span class="si">}</span><span class="s1">&quot;]</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="c1"># toml_str += &quot;[tool.setuptools.exclude-package-data]\n&quot;</span>
         <span class="c1"># toml_str += f&#39;{self.name} = [&quot;__pycache__/*&quot;, &quot;__pycache__&quot;]\n&#39;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cli</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -316,7 +323,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, jkris.</p>
+    <p>&#169; Copyright 2024, jkris.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

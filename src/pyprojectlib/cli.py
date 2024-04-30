@@ -18,6 +18,8 @@ PROJPATHNAME = "projpath"
 NAMENAME = "name"
 EMNAME = "email"
 GUNAME = "gituser"
+PYVERNAME = "pyversion"
+FILETNAME = "filetypes"
 RELNAME = "relpath"
 NCNAME = "noclean"
 NDNAME = "nodoc"
@@ -48,10 +50,8 @@ NOTEST_H = "Flag to prevent pytest from running"
 NAME_H = "Your full name"
 EMAIL_H = "Your email address"
 GITU_H = "Your username on Github"
-
-
-def create_parser():
-    """create parser object"""
+PYVERS_H = "Minimum version of Python required"
+FILET_H = "Comma-seperated list of file types to include"
 
 
 def cli_parse():
@@ -94,6 +94,8 @@ def cli_parse():
     pack_parser.add_argument(f"-{NAMENAME}", "-n", type=str, default="", help=NAME_H)
     pack_parser.add_argument(f"-{EMNAME}", "-e", type=str, default="", help=EMAIL_H)
     pack_parser.add_argument(f"-{GUNAME}", "-g", type=str, default="", help=GITU_H)
+    pack_parser.add_argument(f"-{PYVERNAME}", "-p", type=str, default="", help=PYVERS_H)
+    pack_parser.add_argument(f"-{FILETNAME}", "-ft", type=str, default="", help=FILET_H)
 
     args = parser.parse_args()
     argitems = vars(args).items()

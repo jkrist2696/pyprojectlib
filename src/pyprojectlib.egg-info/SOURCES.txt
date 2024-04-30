@@ -1,6 +1,8 @@
 LICENSE.txt
 README.md
 pyproject.toml
+src/pyprojectlib/LICENSE.template
+src/pyprojectlib/README.template
 src/pyprojectlib/__init__.py
 src/pyprojectlib/cli.py
 src/pyprojectlib/constants.py

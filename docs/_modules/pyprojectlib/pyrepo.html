@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyprojectlib.pyrepo &mdash; pyprojectlib 0.0.2 documentation</title>
+  <title>pyprojectlib.pyrepo &mdash; pyprojectlib 0.0.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -12,7 +12,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=ef20c91a"></script>
+        <script src="../../_static/documentation_options.js?v=1a4dbec4"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -32,7 +32,7 @@
             pyprojectlib
           </a>
               <div class="version">
-                0.0.2
+                0.0.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -180,7 +180,11 @@
 <div class="viewcode-block" id="RepoProject.update">
 <a class="viewcode-back" href="../../pyprojectlib.html#pyprojectlib.pyrepo.RepoProject.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">git</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">doc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">git</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;check code quality, then copy over new version&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_required</span><span class="p">()</span>
@@ -254,8 +258,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;build project into package&quot;&quot;&quot;</span>
         <span class="n">upload</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">install</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">pyversion</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;pyversion&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">filetypes</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;filetypes&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="n">pkg</span> <span class="o">=</span> <span class="n">Package</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repoprojpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">pkg</span><span class="o">.</span><span class="n">save_toml</span><span class="p">()</span>
+        <span class="n">pkg</span><span class="o">.</span><span class="n">save_toml</span><span class="p">(</span><span class="n">pyversion</span><span class="o">=</span><span class="n">pyversion</span><span class="p">,</span> <span class="n">filetypes</span><span class="o">=</span><span class="n">filetypes</span><span class="p">)</span>
         <span class="n">pkg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">upload</span><span class="o">=</span><span class="n">upload</span><span class="p">,</span> <span class="n">install</span><span class="o">=</span><span class="n">install</span><span class="p">)</span></div>
 
 
@@ -328,7 +334,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, jkris.</p>
+    <p>&#169; Copyright 2024, jkris.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

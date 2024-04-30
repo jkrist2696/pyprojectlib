@@ -8,12 +8,13 @@ Manual Build Steps:
     twine upload dist/*
 
 """
+
 from os import path, mkdir
 from re import split
 from shutil import rmtree
 import pipreqs.pipreqs as pr  # type: ignore # pylint: disable=E0401
 from . import constants as CONS  # type: ignore # pylint: disable=E0611,E0401
-from .helper import prompt_user, run_capture_out
+from .helper import prompt_user, run_capture_out, pyversion_check
 from .pyuser import User
 from .pyproject import Project
 
@@ -59,7 +60,7 @@ class Package(Project):
         self._remove_dep_dups()
         self._save_requirements()
 
-    def save_toml(self):
+    def save_toml(self, pyversion: str = "", filetypes: str = ""):
         """save_toml"""
         depstr = ",".join([f'"{pkg}"' for pkg in self.dep_pkgs])
         toml_str = CONS.TOMLSTR_START + f'name = "{self.name}"\n'
@@ -68,12 +69,18 @@ class Package(Project):
         toml_str += 'authors = [{ name = "'
         toml_str += f'{author.name}", email = "{author.email}" }}]\n'
         toml_str += f'description = "{self.description}"\n'
-        toml_str += f'requires-python = ">={self.pyversion}"\n'
+        if "current" in pyversion.lower():
+            toml_str += f'requires-python = ">={self.pyversion}"\n'
+        elif len(pyversion) > 0:
+            pyversion_check(pyversion)
+            toml_str += f'requires-python = ">={pyversion}"\n'
         toml_str += f"dependencies = [{depstr}]\n"
         # toml_str += '[tool.setuptools.packages.find]\nwhere = ["src"]\n'
         # toml_str += f'exclude = ["*.__pycache__"]\n'
         toml_str += "[tool.setuptools.package-data]\n"
-        toml_str += f'{self.name} = ["*.typed", ".template"]\n'
+        filetypes_list = [ft[1:] if ft[0] == "." else ft for ft in filetypes.split(",")]
+        filetypes_str = '", "*.'.join(["typed"] + filetypes_list)
+        toml_str += f'{self.name} = ["*.{filetypes_str}"]\n'
         # toml_str += "[tool.setuptools.exclude-package-data]\n"
         # toml_str += f'{self.name} = ["__pycache__/*", "__pycache__"]\n'
         if len(self.cli.strip()) > 0:
